@@ -23,6 +23,7 @@
 	},
 	"homepage": "https://github.com/ELEVATE-Project/mentoring-bpp-service#readme",
 	"dependencies": {
+		"cors": "^2.8.5",
 		"dotenv": "^16.0.2",
 		"express": "^4.17.1",
 		"module-alias": "^2.2.2",
@@ -40,5 +41,15 @@
 	"lint-staged": {
 		"../*": "prettier --ignore-unknown --write",
 		"*": "prettier --ignore-unknown --write"
+	},
+	"_moduleAliases": {
+		"@root": ".",
+		"@controllers": "controllers",
+		"@database": "database",
+		"@routes": "routes",
+		"@config": "config",
+		"@utils": "utils",
+		"@tests": "tests",
+		"@constants": "constants"
 	}
 }

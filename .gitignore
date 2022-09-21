@@ -68,4 +68,4 @@ gcp.json
 
 #ignore jest db config 
 /src/globalConfig.json
-
+ngrok
