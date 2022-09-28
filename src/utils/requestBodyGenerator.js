@@ -48,7 +48,11 @@ const requestBody = {
 								code: 'X-MATH-CBSE',
 								short_desc: '10th Standard Mathematics (CBSE) lecture',
 								long_desc: '10th Standard Mathematics (CBSE) lecture',
-								images: ['https://google.com/images/image1.png'],
+								images: [
+									'https://picsum.photos/300/200',
+									'https://picsum.photos/300/200',
+									'https://picsum.photos/300/200',
+								],
 							},
 							fulfillment_id: '1',
 							price: {
@@ -80,7 +84,7 @@ const requestBody = {
 					},
 					agent: {
 						name: 'Dr Rajiv Manocha',
-						image: 'https://srf',
+						image: 'https://i.pravatar.cc/300',
 						gender: 'M',
 						tags: {
 							subjects: ['maths', 'physics'],
