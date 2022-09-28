@@ -45,7 +45,17 @@ const requestBody = {
 							id: '1',
 							category_id: '123',
 							descriptor: {
-								name: '10th Std Mathematics',
+								name:
+									'10th Std ' +
+									faker.helpers.arrayElement([
+										'Mathematics',
+										'Physics',
+										'Chemistry',
+										'English',
+										'Biology',
+										'Computer Science',
+										'Social Science',
+									]),
 								code: 'X-MATH-CBSE',
 								short_desc: faker.lorem.sentence(5),
 								long_desc: faker.lorem.sentences(2),
