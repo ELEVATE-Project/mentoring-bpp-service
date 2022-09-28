@@ -25,37 +25,41 @@ const requestBody = {
 			},
 			'bpp/categories': [
 				{
-					id: '123',
+					id: '456',
 					description: '',
 					descriptor: {
-						name: 'Education Leadership',
-						code: 'EL',
+						name: 'Administrative Leadership',
+						code: 'AL',
 					},
 				},
 			],
 			'bpp/providers': [
 				{
 					descriptor: {
-						name: 'CBSE',
+						name: 'ICSE',
 					},
 					categories: [],
 					items: [
 						{
-							id: '1',
-							category_id: '123',
+							id: '2',
+							category_id: '456',
 							descriptor: {
-								name: '10th Std Mathematics',
-								code: 'X-MATH-CBSE',
-								short_desc: '10th Standard Mathematics (CBSE) lecture',
-								long_desc: '10th Standard Mathematics (CBSE) lecture',
-								images: ['https://google.com/images/image1.png'],
+								name: '11th Std Science',
+								code: 'X-SCIENCE-ICSE',
+								short_desc: '11th Standard Science (ICSE) lecture',
+								long_desc: '11th Standard Science (ICSE) lecture',
+								images: [
+									'https://picsum.photos/300/200',
+									'https://picsum.photos/300/200',
+									'https://picsum.photos/300/200',
+								],
 							},
 							fulfillment_id: '1',
 							price: {
 								value: '0',
 							},
 							tags: {
-								recommended_for: ['HM', 'Principals', 'Teachers'],
+								recommended_for: ['HM', 'Principals'],
 							},
 							matched: true,
 						},
@@ -79,13 +83,13 @@ const requestBody = {
 						timeZone: '',
 					},
 					agent: {
-						name: 'Dr Rajiv Manocha',
-						image: 'https://srf',
+						name: 'Dr Elon Gates',
+						image: 'https://i.pravatar.cc/300',
 						gender: 'M',
 						tags: {
-							subjects: ['maths', 'physics'],
-							grades: 'X, XI, XII',
-							boards: 'CBSE, ICSE',
+							subjects: ['science', 'english'],
+							grades: 'XI, XII',
+							boards: 'ICSE, CBSE',
 							rating: '5',
 						},
 					},
