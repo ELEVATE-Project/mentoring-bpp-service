@@ -1,4 +1,5 @@
 'use strict'
+const { faker } = require('@faker-js/faker')
 
 const requestBody = {
 	context: {
@@ -13,12 +14,12 @@ const requestBody = {
 	message: {
 		catalog: {
 			'bpp/descriptor': {
-				name: 'string',
-				code: 'string',
-				symbol: 'string',
-				short_desc: 'string',
-				long_desc: 'string',
-				images: ['string'],
+				name: 'Elevate BPP #1',
+				code: 'elevate-bpp-1',
+				symbol: '<i class="fas fa-vihara"></i>',
+				short_desc: faker.lorem.sentence(5),
+				long_desc: faker.lorem.sentences(2),
+				images: ['https://shikshalokam.org/wp-content/uploads/2021/06/elevate-logo.png'],
 				audio: 'string',
 				video: 'string',
 				'3d_render': 'string',
@@ -26,7 +27,7 @@ const requestBody = {
 			'bpp/categories': [
 				{
 					id: '123',
-					description: '',
+					description: 'BPP focused on educational leadership.',
 					descriptor: {
 						name: 'Education Leadership',
 						code: 'EL',
@@ -46,8 +47,8 @@ const requestBody = {
 							descriptor: {
 								name: '10th Std Mathematics',
 								code: 'X-MATH-CBSE',
-								short_desc: '10th Standard Mathematics (CBSE) lecture',
-								long_desc: '10th Standard Mathematics (CBSE) lecture',
+								short_desc: faker.lorem.sentence(5),
+								long_desc: faker.lorem.sentences(2),
 								images: [
 									'https://picsum.photos/300/200',
 									'https://picsum.photos/300/200',
@@ -83,8 +84,13 @@ const requestBody = {
 						timeZone: '',
 					},
 					agent: {
-						name: 'Dr Rajiv Manocha',
-						image: 'https://i.pravatar.cc/300',
+						name:
+							faker.name.prefix('male') +
+							' ' +
+							faker.name.fullName({
+								gender: 'male',
+							}),
+						image: faker.image.avatar(),
 						gender: 'M',
 						tags: {
 							subjects: ['maths', 'physics'],
