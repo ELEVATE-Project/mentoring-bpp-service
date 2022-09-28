@@ -107,6 +107,9 @@ const requestBody = {
 	},
 }
 
-exports.requestBodyGenerator = (api, body = {}) => {
-	if (api === 'BAP_OnSearch') return requestBody
+exports.requestBodyGenerator = (api, transaction_id) => {
+	if (api === 'BAP_OnSearch') {
+		requestBody.context.transaction_id = transaction_id
+		return requestBody
+	}
 }
