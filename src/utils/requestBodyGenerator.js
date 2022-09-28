@@ -1,4 +1,5 @@
 'use strict'
+const { faker } = require('@faker-js/faker')
 
 const requestBody = {
 	context: {
@@ -13,20 +14,20 @@ const requestBody = {
 	message: {
 		catalog: {
 			'bpp/descriptor': {
-				name: 'string',
-				code: 'string',
-				symbol: 'string',
-				short_desc: 'string',
-				long_desc: 'string',
-				images: ['string'],
+				name: 'Elevate BPP #2',
+				code: 'elevate-bpp-2',
+				symbol: '<i class="fas fa-user-graduate"></i>',
+				short_desc: faker.lorem.sentence(5),
+				long_desc: faker.lorem.sentences(2),
+				images: ['https://shikshalokam.org/wp-content/uploads/2021/06/elevate-logo.png'],
 				audio: 'string',
 				video: 'string',
 				'3d_render': 'string',
 			},
 			'bpp/categories': [
 				{
-					id: '456',
-					description: '',
+					id: '123',
+					description: 'BPP focused on administrative leadership.',
 					descriptor: {
 						name: 'Administrative Leadership',
 						code: 'AL',
@@ -41,13 +42,13 @@ const requestBody = {
 					categories: [],
 					items: [
 						{
-							id: '2',
-							category_id: '456',
+							id: '1',
+							category_id: '123',
 							descriptor: {
 								name: '11th Std Science',
-								code: 'X-SCIENCE-ICSE',
-								short_desc: '11th Standard Science (ICSE) lecture',
-								long_desc: '11th Standard Science (ICSE) lecture',
+								code: 'X-MATH-ICSE',
+								short_desc: faker.lorem.sentence(5),
+								long_desc: faker.lorem.sentences(2),
 								images: [
 									'https://picsum.photos/300/200',
 									'https://picsum.photos/300/200',
@@ -59,7 +60,7 @@ const requestBody = {
 								value: '0',
 							},
 							tags: {
-								recommended_for: ['HM', 'Principals'],
+								recommended_for: ['HM', 'Principals', 'Teachers'],
 							},
 							matched: true,
 						},
@@ -83,14 +84,19 @@ const requestBody = {
 						timeZone: '',
 					},
 					agent: {
-						name: 'Dr Elon Gates',
-						image: 'https://i.pravatar.cc/300',
-						gender: 'M',
+						name:
+							faker.name.prefix('male') +
+							' ' +
+							faker.name.fullName({
+								sex: 'female',
+							}),
+						image: faker.image.avatar(),
+						gender: 'F',
 						tags: {
 							subjects: ['science', 'english'],
 							grades: 'XI, XII',
 							boards: 'ICSE, CBSE',
-							rating: '5',
+							rating: '3',
 						},
 					},
 					start: {
