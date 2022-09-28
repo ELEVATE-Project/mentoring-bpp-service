@@ -88,7 +88,7 @@ const requestBody = {
 							faker.name.prefix('male') +
 							' ' +
 							faker.name.fullName({
-								gender: 'male',
+								sex: 'male',
 							}),
 						image: faker.image.avatar(),
 						gender: 'M',
