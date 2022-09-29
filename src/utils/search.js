@@ -9,5 +9,5 @@ exports.search = async (req) => {
 		{},
 		requestBodyGenerator('BAP_OnSearch', req.body.context.transaction_id)
 	)
-	console.log(response.data)
+	//console.log(response.data)
 }
