@@ -45,7 +45,19 @@ const requestBody = {
 							id: '1',
 							category_id: '123',
 							descriptor: {
-								name: '11th Std Science',
+								name:
+									'Grade ' +
+									faker.helpers.arrayElement(['IX', 'X', 'XI', 'XII']) +
+									' ' +
+									faker.helpers.arrayElement([
+										'Mathematics',
+										'Physics',
+										'Chemistry',
+										'English',
+										'Biology',
+										'Computer Science',
+										'Social Science',
+									]),
 								code: 'X-MATH-ICSE',
 								short_desc: faker.lorem.sentence(5),
 								long_desc: faker.lorem.sentences(2),
@@ -85,7 +97,7 @@ const requestBody = {
 					},
 					agent: {
 						name:
-							faker.name.prefix('male') +
+							faker.name.prefix('female') +
 							' ' +
 							faker.name.fullName({
 								sex: 'female',
