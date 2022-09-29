@@ -1,12 +1,13 @@
 'use strict'
 const { faker } = require('@faker-js/faker')
+const moment = require('moment')
 
 const requestBody = {
 	context: {
 		domain: process.env.DOMAIN,
 		country: process.env.COUNTRY,
 		city: process.env.CITY,
-		action: 'temp',
+		action: 'search',
 		bpp_id: process.env.BPP_ID,
 		bpp_uri: process.env.BPP_URI,
 		timestamp: new Date().toISOString(),
@@ -24,29 +25,49 @@ const requestBody = {
 				video: 'string',
 				'3d_render': 'string',
 			},
-			'bpp/categories': [
-				{
-					id: '123',
-					description: 'BPP focused on administrative leadership.',
+			'bpp/categories': ['1', '2', '3', '4'].map((categoryId) => {
+				return {
+					id: categoryId,
+					description: faker.lorem.sentence(5),
 					descriptor: {
-						name: 'Administrative Leadership',
-						code: 'AL',
+						name:
+							faker.helpers.arrayElement([
+								'Academic',
+								'Educational',
+								'Co-curricular',
+								'Administrative',
+								'Financial',
+							]) +
+							' ' +
+							faker.helpers.arrayElement(['Leadership', 'Improvement', 'Activities', 'Management']),
+						code: faker.lorem.word(2).toUpperCase(),
 					},
-				},
-			],
-			'bpp/providers': [
-				{
+				}
+			}),
+			'bpp/providers': ['1', '2', '3', '4'].map((id) => {
+				const provider = faker.helpers.arrayElement(['CBSE', 'ICSE', 'NCTE', 'NIT-C', 'IIT-B'])
+				const subject = faker.helpers.arrayElement([
+					'Mathematics',
+					'Physics',
+					'Chemistry',
+					'English',
+					'Biology',
+					'Computer Science',
+					'Social Science',
+				])
+				const grade = faker.helpers.arrayElement(['IX', 'X', 'XI', 'XII'])
+				return {
 					descriptor: {
-						name: 'ICSE',
+						name: provider,
 					},
 					categories: [],
 					items: [
 						{
-							id: '1',
-							category_id: '123',
+							id: id,
+							category_id: id,
 							descriptor: {
-								name: '11th Std Science',
-								code: 'X-MATH-ICSE',
+								name: 'Grade ' + grade + ' ' + subject,
+								code: [grade, subject.replace(/\s+/g, '-').toUpperCase(), provider].join('-'),
 								short_desc: faker.lorem.sentence(5),
 								long_desc: faker.lorem.sentences(2),
 								images: [
@@ -55,27 +76,32 @@ const requestBody = {
 									'https://picsum.photos/300/200',
 								],
 							},
-							fulfillment_id: '1',
+							fulfillment_id: id,
 							price: {
 								value: '0',
 							},
 							tags: {
-								recommended_for: ['HM', 'Principals', 'Teachers'],
+								recommended_for: faker.helpers.arrayElements([
+									'Headmasters',
+									'Principals',
+									'Teachers',
+									'Office Staffs',
+									'PTA',
+								]),
 							},
 							matched: true,
 						},
 					],
-				},
-			],
-			fulfillments: [
-				{
-					id: '1',
-					type: 'ONLINE',
-					language: [
-						// It's a new field, that conveys how the session will be delivered, can be used for any service.
-						'hi',
-						'en',
-					],
+				}
+			}),
+			fulfillments: ['1', '2', '3', '4'].map((id) => {
+				const sex = faker.helpers.arrayElement(['male', 'female'])
+				const startDate = moment().add('days', Math.floor(Math.random() * 8) + 1)
+				const endDate = moment(startDate).add('hours', Math.floor(Math.random() * 2) + 1)
+				return {
+					id: id,
+					type: faker.helpers.arrayElement(['ONLINE', 'OFFLINE']),
+					language: ['hi', 'en'],
 					descriptor: {
 						name: 'Full-time',
 					},
@@ -85,34 +111,43 @@ const requestBody = {
 					},
 					agent: {
 						name:
-							faker.name.prefix('male') +
+							faker.name.prefix(sex) +
 							' ' +
 							faker.name.fullName({
-								sex: 'female',
+								sex: sex,
 							}),
 						image: faker.image.avatar(),
-						gender: 'F',
+						gender: sex[0].toUpperCase(),
 						tags: {
-							subjects: ['science', 'english'],
-							grades: 'XI, XII',
-							boards: 'ICSE, CBSE',
-							rating: '3',
+							subjects: faker.helpers.arrayElements(
+								[
+									'Mathematics',
+									'Physics',
+									'Chemistry',
+									'English',
+									'Biology',
+									'Computer Science',
+									'Social Science',
+								],
+								Math.floor(Math.random() * 2) + 1
+							),
+							grades: faker.helpers.arrayElements(['IX', 'X', 'XI', 'XII']),
+							boards: faker.helpers.arrayElements(['CBSE', 'KSEEB', 'ICSE', 'SCERT']),
+							rating: Math.floor(Math.random() * 5) + 1,
 						},
 					},
 					start: {
-						// Will be in UTC
 						time: {
-							timestamp: '2021-03-23T10:00:40.065Z',
+							timestamp: startDate.utc().format(),
 						},
 					},
 					end: {
-						// Will be in UTC
 						time: {
-							timestamp: '2021-03-23T10:00:40.065Z',
+							timestamp: endDate.utc().format(),
 						},
 					},
-				},
-			],
+				}
+			}),
 		},
 	},
 }
