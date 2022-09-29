@@ -46,7 +46,9 @@ const requestBody = {
 							category_id: '123',
 							descriptor: {
 								name:
-									'10th Std ' +
+									'Grade ' +
+									faker.helpers.arrayElement(['IX', 'X', 'XI', 'XII']) +
+									' ' +
 									faker.helpers.arrayElement([
 										'Mathematics',
 										'Physics',
