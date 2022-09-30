@@ -22,7 +22,6 @@ exports.init = async (payload) => {
 }
 
 exports.confirm = async (payload) => {
-	console.log(payload.message)
 	const response = await requester.postRequest(
 		payload.context.bap_uri + '/on_confirm',
 		{},
