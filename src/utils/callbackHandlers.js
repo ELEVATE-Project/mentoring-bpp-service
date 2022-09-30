@@ -4,17 +4,14 @@ const { requestBodyGenerator } = require('@utils/requestBodyGenerator')
 const requester = require('@utils/requester')
 
 exports.search = async (payload) => {
-	console.log(payload)
 	const response = await requester.postRequest(
 		payload.context.bap_uri + '/on_search',
 		{},
 		await requestBodyGenerator('bap_on_search', payload.context.transaction_id, payload.context.message_id)
 	)
-	console.log(response.data)
 }
 
 exports.init = async (payload) => {
-	console.log(payload)
 	const response = await requester.postRequest(
 		payload.context.bap_uri + '/on_init',
 		{},
@@ -22,7 +19,6 @@ exports.init = async (payload) => {
 			orderId: payload.message.order.id,
 		})
 	)
-	console.log(response.data)
 }
 
 exports.confirm = async (payload) => {
@@ -35,5 +31,4 @@ exports.confirm = async (payload) => {
 			selectedFulfillmentId: payload.message.order.fulfillments[0].id,
 		})
 	)
-	console.log(response.data)
 }

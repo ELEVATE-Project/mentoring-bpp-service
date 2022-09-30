@@ -185,6 +185,5 @@ exports.requestBodyGenerator = async (api, transactionId, messageId, body = {}) 
 			link: faker.internet.url(),
 		}
 	}
-	console.log(requestBody)
 	return requestBody
 }
