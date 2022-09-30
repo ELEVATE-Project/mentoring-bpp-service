@@ -161,7 +161,7 @@ exports.requestBodyGenerator = async (api, transactionId, messageId, body = {}) 
 	if (api === 'bap_on_search') {
 		requestBody.context.action = 'on_search'
 		requestBody.message = searchMessage
-		await cacheSave(`${transactionId}:SEARCH`, requestBody.catalog.fulfillments)
+		await cacheSave(`${transactionId}:SEARCH`, requestBody.message.catalog.fulfillments)
 	} else if (api === 'bap_on_init') {
 		requestBody.context.action = 'on_init'
 		requestBody.message = {
@@ -185,5 +185,6 @@ exports.requestBodyGenerator = async (api, transactionId, messageId, body = {}) 
 			link: faker.internet.url(),
 		}
 	}
+	console.log(requestBody)
 	return requestBody
 }
