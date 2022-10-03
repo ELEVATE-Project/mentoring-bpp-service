@@ -184,7 +184,7 @@ exports.requestBodyGenerator = async (api, transactionId, messageId, body = {}) 
 			},
 		}
 		requestBody.message.order.fulfillments[0].tags = {
-			link: faker.internet.url(),
+			link: faker.internet.url() + '/session?id=' + faker.random.alphaNumeric(10),
 		}
 	}
 	return requestBody
