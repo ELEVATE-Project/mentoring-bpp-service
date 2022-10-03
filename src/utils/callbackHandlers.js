@@ -28,6 +28,7 @@ exports.confirm = async (payload) => {
 		await requestBodyGenerator('bap_on_confirm', payload.context.transaction_id, payload.context.message_id, {
 			orderId: payload.message.order.id,
 			selectedFulfillmentId: payload.message.order.fulfillments[0].id,
+			itemId: payload.message.order.items[0].id,
 		})
 	)
 }
@@ -37,6 +38,17 @@ exports.cancel = async (payload) => {
 		payload.context.bap_uri + '/on_cancel',
 		{},
 		await requestBodyGenerator('bap_on_cancel', payload.context.transaction_id, payload.context.message_id, {
+			orderId: payload.message.order.id,
+		})
+	)
+	console.log(response)
+}
+
+exports.status = async (payload) => {
+	const response = await requester.postRequest(
+		payload.context.bap_uri + '/on_status',
+		{},
+		await requestBodyGenerator('bap_on_status', payload.context.transaction_id, payload.context.message_id, {
 			orderId: payload.message.order.id,
 		})
 	)

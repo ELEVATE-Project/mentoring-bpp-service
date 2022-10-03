@@ -163,7 +163,7 @@ exports.requestBodyGenerator = async (api, transactionId, messageId, body = {}) 
 	if (api === 'bap_on_search') {
 		requestBody.context.action = 'on_search'
 		requestBody.message = searchMessage
-		await cacheSave(`${transactionId}:SEARCH`, requestBody.message.catalog.fulfillments)
+		await cacheSave(`${transactionId}:SEARCH`, requestBody.message.catalog)
 	} else if (api === 'bap_on_init') {
 		requestBody.context.action = 'on_init'
 		requestBody.message = {
@@ -172,10 +172,20 @@ exports.requestBodyGenerator = async (api, transactionId, messageId, body = {}) 
 			},
 		}
 	} else if (api === 'bap_on_confirm') {
-		const fulfillments = await cacheGet(`${transactionId}:SEARCH`)
-		const selectedFulfillment = fulfillments.filter((fulfillment) => {
+		const catalog = await cacheGet(`${transactionId}:SEARCH`)
+		const selectedFulfillment = catalog.fulfillments.filter((fulfillment) => {
 			return fulfillment.id === body.selectedFulfillmentId
 		})
+		const selectedItem = (() => {
+			const providers = catalog['bpp/providers']
+			for (let i = 0; i < providers.length; i++) {
+				const items = providers[i].items
+				for (let j = 0; j < items.length; j++) {
+					if (items[j].id === body.itemId) return items[j]
+				}
+			}
+		})()
+		console.log(selectedItem)
 		requestBody.context.action = 'on_confirm'
 		requestBody.message = {
 			order: {
@@ -186,6 +196,10 @@ exports.requestBodyGenerator = async (api, transactionId, messageId, body = {}) 
 		requestBody.message.order.fulfillments[0].tags = {
 			link: faker.internet.url() + '/session?id=' + faker.random.alphaNumeric(10),
 		}
+		await cacheSave(`${body.orderId}`, {
+			items: selectedItem,
+			fulfillments: selectedFulfillment,
+		})
 	} else if (api === 'bap_on_cancel') {
 		requestBody.context.action = 'on_cancel'
 		requestBody.message = {
@@ -193,6 +207,16 @@ exports.requestBodyGenerator = async (api, transactionId, messageId, body = {}) 
 				id: body.orderId,
 			},
 		}
+	} else if (api === 'bap_on_status') {
+		requestBody.context.action = 'on_status'
+		const orderDetails = await cacheGet(`${body.orderId}`)
+		requestBody.message = {
+			order: {
+				id: body.orderId,
+				...orderDetails,
+			},
+		}
 	}
+	console.log(requestBody)
 	return requestBody
 }
