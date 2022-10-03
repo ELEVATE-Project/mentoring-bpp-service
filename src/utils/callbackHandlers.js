@@ -31,3 +31,13 @@ exports.confirm = async (payload) => {
 		})
 	)
 }
+
+exports.cancel = async (payload) => {
+	const response = await requester.postRequest(
+		payload.context.bap_uri + '/on_cancel',
+		{},
+		await requestBodyGenerator('bap_on_cancel', payload.context.transaction_id, payload.context.message_id, {
+			orderId: payload.message.order.id,
+		})
+	)
+}

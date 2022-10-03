@@ -186,6 +186,13 @@ exports.requestBodyGenerator = async (api, transactionId, messageId, body = {}) 
 		requestBody.message.order.fulfillments[0].tags = {
 			link: faker.internet.url() + '/session?id=' + faker.random.alphaNumeric(10),
 		}
+	} else if (api === 'bap_on_cancel') {
+		requestBody.context.action = 'on_cancel'
+		requestBody.message = {
+			order: {
+				id: body.orderId,
+			},
+		}
 	}
 	return requestBody
 }
