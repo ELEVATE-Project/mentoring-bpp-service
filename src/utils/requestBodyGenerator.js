@@ -19,9 +19,9 @@ const requestBody = {
 const searchMessage = {
 	catalog: {
 		'bpp/descriptor': {
-			name: 'Elevate BPP #2',
-			code: 'elevate-bpp-2',
-			symbol: '<i class="fas fa-user-graduate"></i>',
+			name: process.env.BPP_NAME,
+			code: process.env.BPP_CODE,
+			symbol: process.env.BPP_SYMBOL,
 			short_desc: faker.lorem.sentence(5),
 			long_desc: faker.lorem.sentences(2),
 			images: ['https://shikshalokam.org/wp-content/uploads/2021/06/elevate-logo.png'],
@@ -75,9 +75,9 @@ const searchMessage = {
 							short_desc: faker.lorem.sentence(5),
 							long_desc: faker.lorem.sentences(2),
 							images: [
-								'https://picsum.photos/300/200',
-								'https://picsum.photos/300/200',
-								'https://picsum.photos/300/200',
+								faker.image.abstract() + '?random=' + faker.random.alphaNumeric(10),
+								faker.image.abstract() + '?random=' + faker.random.alphaNumeric(10),
+								faker.image.abstract() + '?random=' + faker.random.alphaNumeric(10),
 							],
 						},
 						fulfillment_id: id,
@@ -100,8 +100,10 @@ const searchMessage = {
 		}),
 		fulfillments: ['1', '2', '3', '4'].map((id) => {
 			const sex = faker.helpers.arrayElement(['male', 'female'])
-			const startDate = moment().add('days', Math.floor(Math.random() * 8) + 1)
-			const endDate = moment(startDate).add('hours', Math.floor(Math.random() * 2) + 1)
+			const startDate = moment()
+				.add(Math.floor(Math.random() * 8) + 1, 'days')
+				.add(Math.floor(Math.random() * 300) + 40, 'minutes')
+			const endDate = moment(startDate).add(Math.floor(Math.random() * 2) + 1, 'hours')
 			return {
 				id: id,
 				type: faker.helpers.arrayElement(['ONLINE', 'OFFLINE']),
