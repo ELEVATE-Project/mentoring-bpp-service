@@ -4,6 +4,7 @@ const { requestBodyGenerator } = require('@utils/requestBodyGenerator')
 const requester = require('@utils/requester')
 
 exports.search = async (payload) => {
+	console.log('SEARCH CALLBACK HANDLER')
 	const response = await requester.postRequest(
 		payload.context.bap_uri + '/on_search',
 		{},
@@ -41,7 +42,6 @@ exports.cancel = async (payload) => {
 			orderId: payload.message.order.id,
 		})
 	)
-	console.log(response)
 }
 
 exports.status = async (payload) => {
