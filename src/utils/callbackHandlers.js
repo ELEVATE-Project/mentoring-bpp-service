@@ -2,13 +2,20 @@
 
 const { requestBodyGenerator } = require('@utils/requestBodyGenerator')
 const requester = require('@utils/requester')
+const { createAuthorizationHeader } = require('@utils/auth')
 
 exports.search = async (payload) => {
 	console.log('SEARCH CALLBACK HANDLER')
+	const requestBody = await requestBodyGenerator(
+		'bap_on_search',
+		payload.context.transaction_id,
+		payload.context.message_id
+	)
+	const authorizationHeader = await createAuthorizationHeader(requestBody)
 	const response = await requester.postRequest(
 		payload.context.bap_uri + '/on_search',
-		{},
-		await requestBodyGenerator('bap_on_search', payload.context.transaction_id, payload.context.message_id)
+		{ authorization: authorizationHeader },
+		requestBody
 	)
 }
 
