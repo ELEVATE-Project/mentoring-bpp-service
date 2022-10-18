@@ -11,13 +11,11 @@ exports.postRequest = async (url, headers, body, { shouldSign }) => {
 	return new Promise((resolve, reject) => {
 		axios({ method: 'post', url, data: body, headers, timeout: 3000 })
 			.then((res) => {
-				console.log(res.data)
+				console.log('POST REQUEST RESPONSE: ', res.data)
 				resolve(res)
 			})
 			.catch((error) => {
-				console.log(error.response)
-				//console.log(error)
-				reject(false)
+				reject({ status: error.response.status, statusText: error.response.statusText })
 			})
 	})
 }

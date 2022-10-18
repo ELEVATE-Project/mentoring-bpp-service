@@ -30,8 +30,13 @@ exports.authVerifier = async (req, res, next) => {
 				else return unauthenticatedResponse('Proxy Authentication Failed', res)
 			} else proxyVerified = true
 			let authVerified = await verifyHeader(authHeader, req, res)
-			if (authVerified && proxyVerified) next()
-			else return unauthenticatedResponse('Authentication Failed', res)
+			if (authVerified && proxyVerified) {
+				console.log('AUTHENTICATED')
+				next()
+			} else {
+				console.log('AUTHENTICATION FAILED')
+				return unauthenticatedResponse('Authentication Failed', res)
+			}
 		} else next()
 	} catch (err) {
 		console.log(err)
