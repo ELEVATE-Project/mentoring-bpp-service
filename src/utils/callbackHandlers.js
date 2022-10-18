@@ -4,12 +4,16 @@ const { requestBodyGenerator } = require('@utils/requestBodyGenerator')
 const requester = require('@utils/requester')
 
 exports.search = async (payload) => {
-	const response = await requester.postRequest(
-		payload.context.bap_uri + '/on_search',
-		{},
-		await requestBodyGenerator('bap_on_search', payload.context.transaction_id, payload.context.message_id),
-		{ shouldSign: true }
-	)
+	try {
+		const response = await requester.postRequest(
+			payload.context.bap_uri + '/on_search',
+			{},
+			await requestBodyGenerator('bap_on_search', payload.context.transaction_id, payload.context.message_id),
+			{ shouldSign: true }
+		)
+	} catch (err) {
+		console.log(err)
+	}
 }
 
 exports.init = async (payload) => {
