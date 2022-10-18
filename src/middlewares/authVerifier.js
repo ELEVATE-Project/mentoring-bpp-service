@@ -16,9 +16,12 @@ const unauthenticatedResponse = (message, res) => {
 
 exports.authVerifier = async (req, res, next) => {
 	try {
+		console.log()
 		const authHeader = req.headers['authorization'] || false
-		const proxyHeader = req.headers['proxy-authorization'] || false
+		const proxyHeader = req.headers['x-gateway-authorization'] || false
 		const authEnabled = process.env.AUTH_ENABLED === 'true' ? true : false
+		console.log(authHeader)
+		console.log(proxyHeader)
 		if (authEnabled) {
 			let proxyVerified = false
 			if (!authHeader) return unauthenticatedResponse('Authentication Failed', res)
