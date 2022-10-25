@@ -187,7 +187,6 @@ exports.requestBodyGenerator = async (api, transactionId, messageId, body = {}) 
 				}
 			}
 		})()
-		console.log(selectedItem)
 		requestBody.context.action = 'on_confirm'
 		requestBody.message = {
 			order: {
