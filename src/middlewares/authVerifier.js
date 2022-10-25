@@ -24,7 +24,7 @@ exports.authVerifier = async (req, res, next) => {
 		if (authEnabled) {
 			let proxyVerified = false
 			if (!authHeader) return unauthenticatedResponse('Authentication Failed', res)
-			if (req.body.context.action === 'search') {
+			if (req.body.context.action === 'search' && process.env.DISABLE_PROXY_AUTH !== 'true') {
 				if (proxyHeader) proxyVerified = await verifyHeader(proxyHeader, req, res)
 				else return unauthenticatedResponse('Proxy Authentication Failed', res)
 			} else proxyVerified = true
