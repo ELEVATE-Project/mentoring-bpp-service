@@ -18,7 +18,7 @@ exports.authVerifier = async (req, res, next) => {
 	try {
 		const authHeader = req.headers['authorization'] || false
 		const proxyHeader = req.headers['x-gateway-authorization'] || false
-		const authEnabled = process.env.AUTH_ENABLED === 'true' ? true : false
+		const authEnabled = process.env.AUTH_ENABLED === 'false' ? false : true
 		console.log(authHeader)
 		console.log(proxyHeader)
 		if (authEnabled) {
