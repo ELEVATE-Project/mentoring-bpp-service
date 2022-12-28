@@ -16,40 +16,48 @@ const requestBody = {
 	message: {},
 }
 
+const getDescriptor = (type, name) => {
+	const descriptor = {
+		short_desc: faker.lorem.sentence(5),
+		long_desc: faker.lorem.sentences(2),
+		additional_desc: {
+			url: 'https://www.w3.org/2014/10/pv2/sample.html',
+			content_type: 'text/html',
+		},
+		media: [
+			{
+				mimetype: 'temp',
+				url: 'temp',
+				signature: 'temp',
+				dsa: 'temp',
+			},
+		],
+	}
+	if (type === 'bpp') {
+		descriptor.name = process.env.BPP_NAME
+		descriptor.code = process.env.BPP_CODE
+		descriptor.images = [
+			{
+				url: 'https://shikshalokam.org/wp-content/uploads/2021/06/elevate-logo.png',
+				size_type: 'md',
+				width: '400',
+				height: '200',
+			},
+		]
+	} else if (type === 'provider') {
+		return {
+			name: name,
+			code: name,
+		}
+	}
+	return descriptor
+}
+
 const getSearchMessage = () => {
 	return {
 		catalog: {
-			'bpp/descriptor': {
-				name: process.env.BPP_NAME,
-				code: process.env.BPP_CODE,
-				symbol: process.env.BPP_SYMBOL,
-				short_desc: faker.lorem.sentence(5),
-				long_desc: faker.lorem.sentences(2),
-				images: ['https://shikshalokam.org/wp-content/uploads/2021/06/elevate-logo.png'],
-				audio: 'string',
-				video: 'string',
-				'3d_render': 'string',
-			},
-			'bpp/categories': ['1', '2', '3', '4'].map((categoryId) => {
-				return {
-					id: categoryId,
-					description: faker.lorem.sentence(5),
-					descriptor: {
-						name:
-							faker.helpers.arrayElement([
-								'Academic',
-								'Educational',
-								'Co-curricular',
-								'Administrative',
-								'Financial',
-							]) +
-							' ' +
-							faker.helpers.arrayElement(['Leadership', 'Improvement', 'Activities', 'Management']),
-						code: faker.lorem.word(2).toUpperCase(),
-					},
-				}
-			}),
-			'bpp/providers': ['1', '2', '3', '4'].map((id) => {
+			descriptor: getDescriptor('bpp'),
+			providers: ['1', '2', '3', '4'].map((id) => {
 				const provider = faker.helpers.arrayElement(['CBSE', 'ICSE', 'NCTE', 'NIT-C', 'IIT-B'])
 				const subject = faker.helpers.arrayElement([
 					'Mathematics',
@@ -62,14 +70,37 @@ const getSearchMessage = () => {
 				])
 				const grade = faker.helpers.arrayElement(['IX', 'X', 'XI', 'XII'])
 				return {
-					descriptor: {
-						name: provider,
-					},
-					categories: [],
+					id,
+					descriptor: getDescriptor('provider', provider),
+					categories: [
+						{
+							id,
+							description: faker.lorem.sentence(5),
+							descriptor: {
+								name:
+									faker.helpers.arrayElement([
+										'Academic',
+										'Educational',
+										'Co-curricular',
+										'Administrative',
+										'Financial',
+									]) +
+									' ' +
+									faker.helpers.arrayElement([
+										'Leadership',
+										'Improvement',
+										'Activities',
+										'Management',
+									]),
+								code: faker.lorem.word(2).toUpperCase(),
+							},
+						},
+					],
+					rateable: 'false',
 					items: [
 						{
-							id: id,
-							category_id: id,
+							id,
+							category_ids: [id],
 							descriptor: {
 								name: 'Grade ' + grade + ' ' + subject,
 								code: [grade, subject.replace(/\s+/g, '-').toUpperCase(), provider].join('-'),
