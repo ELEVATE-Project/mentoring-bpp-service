@@ -2,15 +2,23 @@
 
 const { requestBodyGenerator } = require('@utils/requestBodyGenerator')
 const requester = require('@utils/requester')
+const { onSearchRequest } = require('@dtos/onSearchRequest')
 
-exports.search = async (payload) => {
+exports.search = async (requestBody, catalogResponse) => {
 	try {
+		const onSearchRequestBody = catalogResponse.catalog
+			? onSearchRequest(requestBody.context.transaction_id, requestBody.context.message_id, catalogResponse)
+			: catalogResponse
+		console.debug('HANDLER: ', JSON.stringify(onSearchRequestBody, null, '\t'))
 		const response = await requester.postRequest(
-			payload.context.bap_uri + '/on_search',
+			requestBody.context.bap_uri + '/on_search',
 			{},
-			await requestBodyGenerator('bap_on_search', payload.context.transaction_id, payload.context.message_id),
-			{ shouldSign: true }
+			onSearchRequestBody,
+			{
+				shouldSign: false,
+			}
 		)
+		console.log(response)
 	} catch (err) {
 		console.log(err)
 	}
