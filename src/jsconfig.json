@@ -9,7 +9,7 @@
 			"@configs*": ["./configs*"],
 			"@constants*": ["./constants*"],
 			"@controllers*": ["./controllers*"],
-			"@db*": ["./db*"],
+			"@database*": ["./database*"],
 			"@generics*": ["./generics*"],
 			"@health-checks*": ["./health-checks*"],
 			"@middlewares*": ["./middlewares*"],
