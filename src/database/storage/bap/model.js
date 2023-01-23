@@ -1,6 +1,7 @@
 'use strict'
 const mongoose = require('mongoose')
 const mongooseLeanGetter = require('mongoose-lean-getters')
+const findOrCreate = require('mongoose-findorcreate')
 const db = require('@configs/mongodb')
 
 const bapSchema = new mongoose.Schema({
@@ -14,6 +15,7 @@ const bapSchema = new mongoose.Schema({
 	},
 })
 bapSchema.plugin(mongooseLeanGetter)
+bapSchema.plugin(findOrCreate)
 
 const model = db.model('Bap', bapSchema)
 

@@ -18,7 +18,8 @@
 			"@services*": ["./services*"],
 			"@validators*": ["./validators*"],
 			"@utils*": ["./utils*"],
-            "@dtos*": ["./dtos*"]
+            "@dtos*": ["./dtos*"],
+            "@helpers*": ["./helpers*"],
 		}
 	},
 	"exclude": ["node_modules", "@shelf/jest-mongodb"]

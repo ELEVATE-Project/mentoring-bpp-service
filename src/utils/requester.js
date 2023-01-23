@@ -5,6 +5,7 @@ const { createAuthorizationHeader } = require('@utils/auth')
 const httpsAgent = new https.Agent({ rejectUnauthorized: false }) */
 
 exports.postRequest = async (url, headers, body, { shouldSign }) => {
+	console.log('reached here')
 	if (shouldSign) {
 		headers = { ...headers, authorization: await createAuthorizationHeader(body) }
 	}
@@ -21,4 +22,8 @@ exports.postRequest = async (url, headers, body, { shouldSign }) => {
 				//reject({ status: error.response.status, statusText: error.response.statusText })
 			})
 	})
+}
+
+exports.internalPostRequest = (url) => {
+	return async ({ headers, body }) => await exports.postRequest(url, headers, body, { shouldSign: false })
 }
