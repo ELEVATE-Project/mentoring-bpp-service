@@ -9,7 +9,6 @@ exports.search = async (requestBody, catalogResponse) => {
 		const onSearchRequestBody = catalogResponse.catalog
 			? onSearchRequest(requestBody.context.transaction_id, requestBody.context.message_id, catalogResponse)
 			: catalogResponse
-		console.debug('HANDLER: ', JSON.stringify(onSearchRequestBody, null, '\t'))
 		const response = await requester.postRequest(
 			requestBody.context.bap_uri + '/on_search',
 			{},

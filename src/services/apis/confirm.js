@@ -3,6 +3,7 @@ const bapQueries = require('@database/storage/bap/queries')
 const sessionAttendanceQueries = require('@database/storage/sessionAttendance/queries')
 const userQueries = require('@database/storage/user/queries')
 const { internalRequests } = require('@helpers/requests')
+const protocolCallbacks = require('@services/protocolCallbacks/')
 
 exports.confirm = async (requestBody) => {
 	try {
@@ -39,6 +40,14 @@ exports.confirm = async (requestBody) => {
 			},
 		})
 		console.log(response)
+		await protocolCallbacks.onConfirm({
+			transactionId: context.transaction_id,
+			messageId: context.message_id,
+			bapId: bap.bapId,
+			bapUri: bap.bapUri,
+			orderId: sessionAttendance.orderId,
+			fulfillmentId: sessionAttendance.fulfillmentId,
+		})
 	} catch (err) {
 		console.log(err)
 	}

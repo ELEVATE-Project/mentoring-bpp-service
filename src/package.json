@@ -38,6 +38,7 @@
 		"mongoose-findorcreate": "^3.0.0",
 		"mongoose-lean-getters": "^0.3.5",
 		"mongoose-timestamp": "^0.6.0",
+		"path-to-regexp": "^6.2.1",
 		"redis": "^4.3.1"
 	},
 	"devDependencies": {
