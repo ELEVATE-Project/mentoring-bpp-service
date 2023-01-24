@@ -2,15 +2,16 @@
 const axios = require('axios')
 const { createAuthorizationHeader } = require('@utils/auth')
 const { isEmpty } = require('@utils/generic')
-const pathToRegexp = require('path-to-regexp')
+const { compile } = require('path-to-regexp')
 /* const https = require('https')
 const httpsAgent = new https.Agent({ rejectUnauthorized: false }) */
 
-exports.postRequest = async (url, headers, body, { shouldSign }) => {
-	console.log('reached here')
+exports.postRequest = async (baseURL, route, headers = {}, body, { shouldSign }) => {
 	try {
+		let url = baseURL + route
 		if (shouldSign) headers = { ...headers, authorization: await createAuthorizationHeader(body) }
 		const response = await axios.post(url, body, { headers, timeout: 3000 })
+		console.log('BODY: ', JSON.stringify(body, null, 2))
 		console.log('RESPONSE: ', JSON.stringify(response.data, null, 2))
 		return response.data
 	} catch (err) {
@@ -24,11 +25,12 @@ exports.postRequest = async (url, headers, body, { shouldSign }) => {
 	}
 }
 
-exports.getRequest = async (url, headers, pathParams = {}, queryParams = {}) => {
+exports.getRequest = async (baseURL, route, headers, pathParams, queryParams) => {
 	try {
-		url = pathToRegexp.compile(url)(pathParams)
+		route = compile(route, { encode: encodeURIComponent })(pathParams)
+		let url = baseURL + route
 		if (!isEmpty(queryParams)) url += '?' + new URLSearchParams(queryParams).toString()
-		const response = await axios.get(url)
+		const response = await axios.get(url, { headers })
 		console.log('RESPONSE: ', JSON.stringify(response.data, null, 2))
 		return response.data
 	} catch (err) {
@@ -42,6 +44,12 @@ exports.getRequest = async (url, headers, pathParams = {}, queryParams = {}) => 
 	}
 }
 
-exports.internalPostRequest = (url) => {
-	return async ({ headers, body }) => await exports.postRequest(url, headers, body, { shouldSign: false })
+exports.internalPOSTRequest = (baseURL) => {
+	return async ({ headers, body, route }) =>
+		await exports.postRequest(baseURL, route, headers, body, { shouldSign: false })
+}
+
+exports.internalGETRequest = (baseURL) => {
+	return async ({ headers, pathParams, queryParams, route }) =>
+		await exports.getRequest(baseURL, route, headers, pathParams, queryParams)
 }

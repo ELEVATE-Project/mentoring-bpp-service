@@ -15,7 +15,7 @@ const sessionAttendanceSchema = new mongoose.Schema({
 		type: ObjectId,
 	},
 	fulfillmentId: {
-		type: Number,
+		type: String,
 	},
 	orderId: {
 		type: String,

@@ -1,6 +1,7 @@
 'use strict'
-const { internalPostRequest } = require('@utils/requester')
+const { internalPOSTRequest, internalGETRequest } = require('@utils/requester')
 
 exports.internalRequests = {
-	mentoringPost: internalPostRequest(process.env.MENTORING_URI),
+	mentoringPOST: internalPOSTRequest(process.env.MENTORING_URI),
+	catalogGET: internalGETRequest(process.env.BPP_CATALOG_URI),
 }

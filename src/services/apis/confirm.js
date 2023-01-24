@@ -28,9 +28,10 @@ exports.confirm = async (requestBody) => {
 		})
 		console.log(sessionAttendance)
 		if (!isNew) throw 'Confirm.APIs.Services: User Already Enrolled'
-		const response = await internalRequests.mentoringPost({
+		const response = await internalRequests.mentoringPOST({
+			route: process.env.MENTORING_SESSION_ENROLL_ROUTE,
 			headers: {
-				'X-auth-token': process.env.MENTORING_INTERNAL_ACCESS_TOKEN,
+				internal_access_token: process.env.MENTORING_INTERNAL_ACCESS_TOKEN,
 			},
 			body: {
 				userId: user._id,
@@ -39,7 +40,6 @@ exports.confirm = async (requestBody) => {
 				sessionId: sessionAttendance.sessionId,
 			},
 		})
-		console.log(response)
 		await protocolCallbacks.onConfirm({
 			transactionId: context.transaction_id,
 			messageId: context.message_id,
@@ -47,6 +47,7 @@ exports.confirm = async (requestBody) => {
 			bapUri: bap.bapUri,
 			orderId: sessionAttendance.orderId,
 			fulfillmentId: sessionAttendance.fulfillmentId,
+			joinLink: response?.result?.link,
 		})
 	} catch (err) {
 		console.log(err)
