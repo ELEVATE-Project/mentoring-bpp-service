@@ -31,8 +31,14 @@
 		"libsodium-wrappers": "^0.7.10",
 		"module-alias": "^2.2.2",
 		"moment": "^2.29.4",
-		"mongodb": "^4.1.2",
+		"mongodb": "^4.11.0",
 		"mongoose": "^6.1.6",
+		"mongoose-autopopulate": "^0.16.0",
+		"mongoose-delete": "^0.5.4",
+		"mongoose-findorcreate": "^3.0.0",
+		"mongoose-lean-getters": "^0.3.5",
+		"mongoose-timestamp": "^0.6.0",
+		"path-to-regexp": "^6.2.1",
 		"redis": "^4.3.1"
 	},
 	"devDependencies": {
@@ -52,11 +58,13 @@
 		"@controllers": "controllers",
 		"@database": "database",
 		"@routes": "routes",
-		"@config": "config",
+		"@configs": "configs",
 		"@utils": "utils",
 		"@tests": "tests",
 		"@constants": "constants",
 		"@middlewares": "middlewares",
-		"@dtos": "dtos"
+		"@dtos": "dtos",
+		"@services": "services",
+		"@helpers": "helpers"
 	}
 }

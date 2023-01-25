@@ -1,13 +1,14 @@
 'use strict'
 const responses = require('@constants/responses.json')
-const { search, init, confirm, cancel, status } = require('@utils/callbackHandlers')
+const { search, init, cancel, status } = require('@utils/callbackHandlers')
 const { postRequest } = require('@utils/requester')
+const confirmService = require('@services/apis/confirm')
 
 exports.search = async (req, res) => {
 	try {
 		await res.status(200).send(responses.success_ack)
 		console.debug(JSON.stringify(req.body, null, '\t'))
-		const catalogResponse = await postRequest(process.env.BPP_CATALOG_URI + '/search', {}, req.body.message, {})
+		const catalogResponse = await postRequest(process.env.BPP_CATALOG_URI, '/search', {}, req.body.message, {})
 		console.log('CONTROLLER: ', catalogResponse)
 		search(req.body, catalogResponse)
 	} catch (err) {
@@ -25,9 +26,8 @@ exports.init = async (req, res) => {
 
 exports.confirm = async (req, res) => {
 	try {
-		//console.debug(JSON.stringify(req.body, null, '\t'))
 		res.status(200).send(responses.success_ack)
-		confirm(req.body)
+		await confirmService.confirm(req.body)
 	} catch (err) {}
 }
 
