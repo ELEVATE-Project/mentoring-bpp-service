@@ -10,7 +10,8 @@ exports.search = async (requestBody, catalogResponse) => {
 			? onSearchRequest(requestBody.context.transaction_id, requestBody.context.message_id, catalogResponse)
 			: catalogResponse
 		const response = await requester.postRequest(
-			requestBody.context.bap_uri + '/on_search',
+			requestBody.context.bap_uri,
+			'/on_search',
 			{},
 			onSearchRequestBody,
 			{

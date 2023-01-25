@@ -8,7 +8,7 @@ exports.search = async (req, res) => {
 	try {
 		await res.status(200).send(responses.success_ack)
 		console.debug(JSON.stringify(req.body, null, '\t'))
-		const catalogResponse = await postRequest(process.env.BPP_CATALOG_URI + '/search', {}, req.body.message, {})
+		const catalogResponse = await postRequest(process.env.BPP_CATALOG_URI, '/search', {}, req.body.message, {})
 		console.log('CONTROLLER: ', catalogResponse)
 		search(req.body, catalogResponse)
 	} catch (err) {
