@@ -3,6 +3,7 @@
 const { requestBodyGenerator } = require('@utils/requestBodyGenerator')
 const requester = require('@utils/requester')
 const { onSearchRequest } = require('@dtos/onSearchRequest')
+const crypto = require('crypto')
 
 exports.search = async (requestBody, catalogResponse) => {
 	try {
@@ -26,10 +27,11 @@ exports.search = async (requestBody, catalogResponse) => {
 
 exports.init = async (payload) => {
 	const response = await requester.postRequest(
-		payload.context.bap_uri + '/on_init',
+		payload.context.bap_uri,
+		'/on_init',
 		{},
 		await requestBodyGenerator('bap_on_init', payload.context.transaction_id, payload.context.message_id, {
-			orderId: payload.message.order.id,
+			orderId: await crypto.randomUUID(),
 		}),
 		{ shouldSign: true }
 	)
@@ -37,7 +39,8 @@ exports.init = async (payload) => {
 
 exports.confirm = async (payload) => {
 	const response = await requester.postRequest(
-		payload.context.bap_uri + '/on_confirm',
+		payload.context.bap_uri,
+		'/on_confirm',
 		{},
 		await requestBodyGenerator('bap_on_confirm', payload.context.transaction_id, payload.context.message_id, {
 			orderId: payload.message.order.id,
@@ -50,7 +53,8 @@ exports.confirm = async (payload) => {
 
 exports.cancel = async (payload) => {
 	const response = await requester.postRequest(
-		payload.context.bap_uri + '/on_cancel',
+		payload.context.bap_uri,
+		'/on_cancel',
 		{},
 		await requestBodyGenerator('bap_on_cancel', payload.context.transaction_id, payload.context.message_id, {
 			orderId: payload.message.order.id,
@@ -61,7 +65,8 @@ exports.cancel = async (payload) => {
 
 exports.status = async (payload) => {
 	const response = await requester.postRequest(
-		payload.context.bap_uri + '/on_status',
+		payload.context.bap_uri,
+		'/on_status',
 		{},
 		await requestBodyGenerator('bap_on_status', payload.context.transaction_id, payload.context.message_id, {
 			orderId: payload.message.order.id,
