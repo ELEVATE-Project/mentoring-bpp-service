@@ -4,16 +4,16 @@ const { contextBuilder } = require('@utils/contextBuilder')
 const { onConfirmRequestDTO } = require('@dtos/onConfirmRequest')
 const { postRequest } = require('@utils/requester')
 
-exports.onConfirm = async (confirmData) => {
+exports.onConfirm = async (callbackData) => {
 	try {
 		const context = await contextBuilder(
-			confirmData.transactionId,
-			confirmData.messageId,
+			callbackData.transactionId,
+			callbackData.messageId,
 			process.env.ON_CONFIRM_ACTION
 		)
 		//console.log(context)
 		const response = await internalRequests.catalogGET({
-			pathParams: { fulfillmentId: confirmData.fulfillmentId },
+			pathParams: { fulfillmentId: callbackData.fulfillmentId },
 			route: process.env.CATALOG_GET_FULFILLMENT_ROUTE,
 		})
 		const fulfillment = response.fulfillment
@@ -22,16 +22,18 @@ exports.onConfirm = async (confirmData) => {
 				display: true,
 				code: 'joinLink',
 				name: 'joinLink',
-				list: [{ code: confirmData.joinLink, name: confirmData.joinLink }],
+				list: [{ code: callbackData.joinLink, name: callbackData.joinLink }],
 			},
 		]
 		const onConfirmRequest = await onConfirmRequestDTO(
 			context,
 			fulfillment,
-			confirmData.orderId,
-			confirmData.joinLink
+			callbackData.orderId,
+			callbackData.joinLink
 		)
-		await postRequest(confirmData.bapUri, process.env.ON_CONFIRM_ROUTE, {}, onConfirmRequest, { shouldSign: false })
+		await postRequest(callbackData.bapUri, process.env.ON_CONFIRM_ROUTE, {}, onConfirmRequest, {
+			shouldSign: false,
+		})
 	} catch (err) {
 		console.log('OnConfirm.ProtocolCallbacks.services: ', err)
 	}
