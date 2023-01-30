@@ -3,6 +3,7 @@ const responses = require('@constants/responses.json')
 const { search, init, cancel, status } = require('@utils/callbackHandlers')
 const { postRequest } = require('@utils/requester')
 const confirmService = require('@services/apis/confirm')
+const selectService = require('@services/apis/select')
 
 exports.search = async (req, res) => {
 	try {
@@ -11,6 +12,16 @@ exports.search = async (req, res) => {
 		const catalogResponse = await postRequest(process.env.BPP_CATALOG_URI, '/search', {}, req.body.message, {})
 		console.log('CONTROLLER: ', catalogResponse)
 		search(req.body, catalogResponse)
+	} catch (err) {
+		console.log(err)
+	}
+}
+
+exports.select = async (req, res) => {
+	try {
+		await res.status(200).send(responses.success_ack)
+		console.debug(JSON.stringify(req.body, null, '\t'))
+		await selectService.select(req.body)
 	} catch (err) {
 		console.log(err)
 	}
