@@ -4,6 +4,7 @@ const { search, init, cancel, status } = require('@utils/callbackHandlers')
 const { postRequest } = require('@utils/requester')
 const confirmService = require('@services/apis/confirm')
 const selectService = require('@services/apis/select')
+const statusService = require('@services/apis/status')
 
 exports.search = async (req, res) => {
 	try {
@@ -52,8 +53,10 @@ exports.cancel = async (req, res) => {
 
 exports.status = async (req, res) => {
 	try {
-		//console.debug(JSON.stringify(req.body, null, '\t'))
+		console.debug(JSON.stringify(req.body, null, '\t'))
 		res.status(200).send(responses.success_ack)
-		status(req.body)
-	} catch (err) {}
+		await statusService.status(req.body)
+	} catch (err) {
+		console.log(err)
+	}
 }
