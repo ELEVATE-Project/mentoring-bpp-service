@@ -27,3 +27,19 @@ exports.findOrCreate = async ({ where = {}, defaults = {} }) => {
 		throw err
 	}
 }
+
+const findByField = async (field, value) => {
+	try {
+		return await SessionAttendance.findOne({ [field]: value }).lean({ virtuals: true })
+	} catch (err) {
+		console.log('SessionAttendance.findByField: ', err)
+	}
+}
+
+exports.findByOrderId = async (orderId) => {
+	try {
+		return await findByField('orderId', orderId)
+	} catch (err) {
+		console.log('SessionAttendance.findByOrderId: ', err)
+	}
+}
