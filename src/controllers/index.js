@@ -5,6 +5,7 @@ const { postRequest } = require('@utils/requester')
 const confirmService = require('@services/apis/confirm')
 const selectService = require('@services/apis/select')
 const statusService = require('@services/apis/status')
+const cancelService = require('@services/apis/cancel')
 
 exports.search = async (req, res) => {
 	try {
@@ -47,7 +48,7 @@ exports.cancel = async (req, res) => {
 	try {
 		//console.debug(JSON.stringify(req.body, null, '\t'))
 		res.status(200).send(responses.success_ack)
-		cancel(req.body)
+		await cancelService.cancel(req.body)
 	} catch (err) {}
 }
 

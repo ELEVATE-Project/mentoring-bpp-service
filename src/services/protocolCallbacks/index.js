@@ -3,5 +3,6 @@
 const { onConfirm } = require('./onConfirm')
 const { onSelect } = require('./onSelect')
 const { onStatus } = require('./onStatus')
-const protocolCallbacks = { onConfirm, onSelect, onStatus }
+const { onCancel } = require('./onCancel')
+const protocolCallbacks = { onConfirm, onSelect, onStatus, onCancel }
 module.exports = protocolCallbacks
