@@ -18,8 +18,6 @@ const STATUS_TEXT = Object.keys(STATUS).reduce((acc, key) => {
 	return acc
 }, {})
 
-console.log(STATUS_TEXT)
-
 const sessionAttendanceSchema = new mongoose.Schema({
 	userId: { type: ObjectId, ref: 'User' },
 	sessionId: {
@@ -42,10 +40,16 @@ const sessionAttendanceSchema = new mongoose.Schema({
 		min: Math.min(...Object.values(STATUS)),
 		max: Math.max(...Object.values(STATUS)),
 	},
+	cancellation: {
+		reasonId: { type: Number },
+		reasonDesc: { type: String },
+	},
 })
 sessionAttendanceSchema.plugin(mongooseLeanGetter)
 sessionAttendanceSchema.plugin(findOrCreate)
 sessionAttendanceSchema.plugin(mongooseLeanVirtuals)
+
+sessionAttendanceSchema.statics.STATUS = STATUS
 
 sessionAttendanceSchema.virtual('statusText').get(function () {
 	return STATUS_TEXT[this.status]

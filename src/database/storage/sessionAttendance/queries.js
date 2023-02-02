@@ -43,3 +43,15 @@ exports.findByOrderId = async (orderId) => {
 		console.log('SessionAttendance.findByOrderId: ', err)
 	}
 }
+
+exports.setStatusAsCancelledById = async (id, { reasonId, reasonDesc }) => {
+	try {
+		const doc = await SessionAttendance.findById(id)
+		doc.status = SessionAttendance.STATUS.CANCELLED
+		if (reasonId) doc.cancellation.reasonId = reasonId
+		else if (reasonDesc) doc.cancellation.reasonDesc = reasonDesc
+		return await doc.save()
+	} catch (err) {
+		console.log('SessionAttendance.findByOrderId: ', err)
+	}
+}
