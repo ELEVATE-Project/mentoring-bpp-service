@@ -12,7 +12,7 @@ exports.onCancel = async (callbackData) => {
 			process.env.ON_CANCEL_ACTION
 		)
 		const onSelectRequest = await onCancelRequestDTO(context, callbackData.orderId)
-		await postRequest(callbackData.bapUri, process.env.ON_CANCEL_ROUTE, {}, onSelectRequest, { shouldSign: false })
+		await postRequest(callbackData.bapUri, process.env.ON_CANCEL_ROUTE, {}, onSelectRequest, { shouldSign: true })
 	} catch (err) {
 		console.log('OnSelect.ProtocolCallbacks.services: ', err)
 	}

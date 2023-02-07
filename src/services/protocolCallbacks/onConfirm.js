@@ -32,7 +32,7 @@ exports.onConfirm = async (callbackData) => {
 			callbackData.joinLink
 		)
 		await postRequest(callbackData.bapUri, process.env.ON_CONFIRM_ROUTE, {}, onConfirmRequest, {
-			shouldSign: false,
+			shouldSign: true,
 		})
 	} catch (err) {
 		console.log('OnConfirm.ProtocolCallbacks.services: ', err)

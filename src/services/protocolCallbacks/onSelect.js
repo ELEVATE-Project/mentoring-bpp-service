@@ -23,7 +23,7 @@ exports.onSelect = async (callbackData) => {
 		})
 		const session = response.session
 		const onSelectRequest = await onSelectRequestDTO(context, session.providers[0])
-		await postRequest(callbackData.bapUri, process.env.ON_SELECT_ROUTE, {}, onSelectRequest, { shouldSign: false })
+		await postRequest(callbackData.bapUri, process.env.ON_SELECT_ROUTE, {}, onSelectRequest, { shouldSign: true })
 	} catch (err) {
 		console.log('OnSelect.ProtocolCallbacks.services: ', err)
 	}

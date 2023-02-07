@@ -16,7 +16,7 @@ exports.search = async (requestBody, catalogResponse) => {
 			{},
 			onSearchRequestBody,
 			{
-				shouldSign: false,
+				shouldSign: true,
 			}
 		)
 		console.log(response)

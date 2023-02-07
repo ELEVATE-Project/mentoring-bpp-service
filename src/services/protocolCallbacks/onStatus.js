@@ -26,7 +26,7 @@ exports.onStatus = async (callbackData) => {
 			callbackData.orderId,
 			callbackData.status
 		)
-		await postRequest(callbackData.bapUri, process.env.ON_STATUS_ROUTE, {}, onStatusRequest, { shouldSign: false })
+		await postRequest(callbackData.bapUri, process.env.ON_STATUS_ROUTE, {}, onStatusRequest, { shouldSign: true })
 	} catch (err) {
 		console.log('OnStatus.ProtocolCallbacks.services: ', err)
 	}
