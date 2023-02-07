@@ -39,6 +39,7 @@ exports.init = async (payload) => {
 		{},
 		await requestBodyGenerator('bap_on_init', payload.context.transaction_id, payload.context.message_id, {
 			orderId: await crypto.randomUUID(),
+			context: payload.context,
 		}),
 		{ shouldSign: true }
 	)

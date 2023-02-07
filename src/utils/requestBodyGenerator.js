@@ -6,12 +6,12 @@ const { cacheSave, cacheGet } = require('@utils/redis')
 const requestBody = {
 	context: {
 		domain: process.env.DOMAIN,
-		country: process.env.COUNTRY,
-		city: process.env.CITY,
 		action: 'temp',
 		bpp_id: process.env.BPP_ID,
 		bpp_uri: process.env.BPP_URI,
 		timestamp: new Date().toISOString(),
+		version: process.env.SCHEMA_CORE_VERSION,
+		ttl: process.env.BPP_TTL,
 	},
 	message: {},
 }
@@ -199,6 +199,8 @@ exports.requestBodyGenerator = async (api, transactionId, messageId, body = {}) 
 		await cacheSave(`${transactionId}:SEARCH`, requestBody.message.catalog)
 	} else if (api === 'bap_on_init') {
 		requestBody.context.action = 'on_init'
+		requestBody.context.bap_id = body.context.bap_id
+		requestBody.context.bap_uri = body.context.bap_uri
 		requestBody.message = {
 			order: {
 				id: body.orderId,
