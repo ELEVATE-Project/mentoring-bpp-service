@@ -47,6 +47,7 @@ const getContext = () => {
 		timestamp: new Date().toISOString(),
 		bap_id: '',
 		bap_uri: '',
+		ttl: process.env.BPP_TTL,
 	}
 }
 
@@ -57,6 +58,7 @@ exports.onSearchRequest = (transactionId, messageId, catalogResponse, requestCon
 	context.bap_uri = requestContext.bap_uri
 	context.transaction_id = transactionId
 	context.message_id = messageId
+	context.version = process.env.SCHEMA_CORE_VERSION
 	return {
 		context,
 		message: catalogResponse,

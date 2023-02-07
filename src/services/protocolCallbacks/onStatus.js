@@ -10,7 +10,9 @@ exports.onStatus = async (callbackData) => {
 		const context = await contextBuilder(
 			callbackData.transactionId,
 			callbackData.messageId,
-			process.env.ON_STATUS_ACTION
+			process.env.ON_STATUS_ACTION,
+			callbackData.bapId,
+			callbackData.bapUri
 		)
 		const response = await internalRequests.catalogGET({
 			route: process.env.CATALOG_GET_STATUS_BODY_ROUTE,

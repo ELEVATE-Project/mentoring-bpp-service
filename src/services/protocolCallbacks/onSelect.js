@@ -10,7 +10,9 @@ exports.onSelect = async (callbackData) => {
 		const context = await contextBuilder(
 			callbackData.transactionId,
 			callbackData.messageId,
-			process.env.ON_SELECT_ACTION
+			process.env.ON_SELECT_ACTION,
+			callbackData.bapId,
+			callbackData.bapUri
 		)
 		const response = await internalRequests.catalogGET({
 			route: process.env.CATALOG_GET_SESSION_ROUTE,
