@@ -4,6 +4,7 @@ const { internalRequests } = require('@helpers/requests')
 const { contextBuilder } = require('@utils/contextBuilder')
 const { onSelectRequestDTO } = require('@dtos/onSelectRequest')
 const { postRequest } = require('@utils/requester')
+const { removeEmptyFields } = require('@utils/removeEmptyFields')
 
 exports.onSelect = async (callbackData) => {
 	try {
@@ -25,7 +26,10 @@ exports.onSelect = async (callbackData) => {
 		})
 		const session = response.session
 		const onSelectRequest = await onSelectRequestDTO(context, session.providers[0])
-		await postRequest(callbackData.bapUri, process.env.ON_SELECT_ROUTE, {}, onSelectRequest, { shouldSign: true })
+		const sanitizedOnSelectRequest = removeEmptyFields(onSelectRequest)
+		await postRequest(callbackData.bapUri, process.env.ON_SELECT_ROUTE, {}, sanitizedOnSelectRequest, {
+			shouldSign: true,
+		})
 	} catch (err) {
 		console.log('OnSelect.ProtocolCallbacks.services: ', err)
 	}

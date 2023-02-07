@@ -4,6 +4,7 @@ const { internalRequests } = require('@helpers/requests')
 const { contextBuilder } = require('@utils/contextBuilder')
 const { postRequest } = require('@utils/requester')
 const { onStatusRequestDTO } = require('@dtos/onStatusRequest')
+const { removeEmptyFields } = require('@utils/removeEmptyFields')
 
 exports.onStatus = async (callbackData) => {
 	try {
@@ -28,7 +29,10 @@ exports.onStatus = async (callbackData) => {
 			callbackData.orderId,
 			callbackData.status
 		)
-		await postRequest(callbackData.bapUri, process.env.ON_STATUS_ROUTE, {}, onStatusRequest, { shouldSign: true })
+		const sanitizedOnStatusRequest = removeEmptyFields(onStatusRequest)
+		await postRequest(callbackData.bapUri, process.env.ON_STATUS_ROUTE, {}, sanitizedOnStatusRequest, {
+			shouldSign: true,
+		})
 	} catch (err) {
 		console.log('OnStatus.ProtocolCallbacks.services: ', err)
 	}

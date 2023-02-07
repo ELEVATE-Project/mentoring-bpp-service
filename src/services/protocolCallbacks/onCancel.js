@@ -3,6 +3,7 @@
 const { contextBuilder } = require('@utils/contextBuilder')
 const { onCancelRequestDTO } = require('@dtos/onCancelRequest')
 const { postRequest } = require('@utils/requester')
+const { removeEmptyFields } = require('@utils/removeEmptyFields')
 
 exports.onCancel = async (callbackData) => {
 	try {
@@ -14,7 +15,10 @@ exports.onCancel = async (callbackData) => {
 			callbackData.bapUri
 		)
 		const onSelectRequest = await onCancelRequestDTO(context, callbackData.orderId)
-		await postRequest(callbackData.bapUri, process.env.ON_CANCEL_ROUTE, {}, onSelectRequest, { shouldSign: true })
+		const sanitizedOnSelectRequest = removeEmptyFields(onSelectRequest)
+		await postRequest(callbackData.bapUri, process.env.ON_CANCEL_ROUTE, {}, sanitizedOnSelectRequest, {
+			shouldSign: true,
+		})
 	} catch (err) {
 		console.log('OnSelect.ProtocolCallbacks.services: ', err)
 	}

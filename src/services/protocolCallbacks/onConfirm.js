@@ -3,6 +3,7 @@ const { internalRequests } = require('@helpers/requests')
 const { contextBuilder } = require('@utils/contextBuilder')
 const { onConfirmRequestDTO } = require('@dtos/onConfirmRequest')
 const { postRequest } = require('@utils/requester')
+const { removeEmptyFields } = require('@utils/removeEmptyFields')
 
 exports.onConfirm = async (callbackData) => {
 	try {
@@ -33,7 +34,8 @@ exports.onConfirm = async (callbackData) => {
 			callbackData.orderId,
 			callbackData.joinLink
 		)
-		await postRequest(callbackData.bapUri, process.env.ON_CONFIRM_ROUTE, {}, onConfirmRequest, {
+		const sanitizedOnConfirmRequest = removeEmptyFields(onConfirmRequest)
+		await postRequest(callbackData.bapUri, process.env.ON_CONFIRM_ROUTE, {}, sanitizedOnConfirmRequest, {
 			shouldSign: true,
 		})
 	} catch (err) {

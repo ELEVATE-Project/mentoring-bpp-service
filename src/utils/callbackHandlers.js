@@ -4,6 +4,7 @@ const { requestBodyGenerator } = require('@utils/requestBodyGenerator')
 const requester = require('@utils/requester')
 const { onSearchRequest } = require('@dtos/onSearchRequest')
 const crypto = require('crypto')
+const { removeEmptyFields } = require('@utils/removeEmptyFields')
 
 exports.search = async (requestBody, catalogResponse) => {
 	try {
@@ -15,11 +16,12 @@ exports.search = async (requestBody, catalogResponse) => {
 					requestBody.context
 			  )
 			: catalogResponse
+		const sanitizedOnSearchRequestBody = removeEmptyFields(onSearchRequestBody)
 		const response = await requester.postRequest(
 			requestBody.context.bap_uri,
 			'/on_search',
 			{},
-			onSearchRequestBody,
+			sanitizedOnSearchRequestBody,
 			{
 				shouldSign: true,
 			}
