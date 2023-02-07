@@ -8,7 +8,12 @@ const crypto = require('crypto')
 exports.search = async (requestBody, catalogResponse) => {
 	try {
 		const onSearchRequestBody = catalogResponse.catalog
-			? onSearchRequest(requestBody.context.transaction_id, requestBody.context.message_id, catalogResponse)
+			? onSearchRequest(
+					requestBody.context.transaction_id,
+					requestBody.context.message_id,
+					catalogResponse,
+					requestBody.context
+			  )
 			: catalogResponse
 		const response = await requester.postRequest(
 			requestBody.context.bap_uri,

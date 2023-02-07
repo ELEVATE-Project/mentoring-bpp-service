@@ -41,18 +41,20 @@ const getDescriptor = (type, name) => {
 const getContext = () => {
 	return {
 		domain: process.env.DOMAIN,
-		country: process.env.COUNTRY,
-		city: process.env.CITY,
-		action: 'temp',
+		action: 'on_search',
 		bpp_id: process.env.BPP_ID,
 		bpp_uri: process.env.BPP_URI,
 		timestamp: new Date().toISOString(),
+		bap_id: '',
+		bap_uri: '',
 	}
 }
 
-exports.onSearchRequest = (transactionId, messageId, catalogResponse) => {
+exports.onSearchRequest = (transactionId, messageId, catalogResponse, requestContext) => {
 	catalogResponse.catalog.descriptor = getDescriptor('bpp')
 	const context = getContext()
+	context.bap_id = requestContext.bap_id
+	context.bap_uri = requestContext.bap_uri
 	context.transaction_id = transactionId
 	context.message_id = messageId
 	return {
