@@ -6,14 +6,16 @@ const confirmService = require('@services/apis/confirm')
 const selectService = require('@services/apis/select')
 const statusService = require('@services/apis/status')
 const cancelService = require('@services/apis/cancel')
+const searchService = require('@services/apis/search')
 
 exports.search = async (req, res) => {
 	try {
 		await res.status(200).send(responses.success_ack)
 		console.debug(JSON.stringify(req.body, null, '\t'))
-		const catalogResponse = await postRequest(process.env.BPP_CATALOG_URI, '/search', {}, req.body.message, {})
-		console.log('CONTROLLER: ', catalogResponse)
-		search(req.body, catalogResponse)
+		/* const catalogResponse = await postRequest(process.env.BPP_CATALOG_URI, '/search', {}, req.body.message, {})
+		console.log('CONTROLLER: ', catalogResponse) */
+		/* search(req.body, catalogResponse) */
+		await searchService.search(req.body)
 	} catch (err) {
 		console.log(err)
 	}
