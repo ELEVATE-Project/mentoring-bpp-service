@@ -23,7 +23,6 @@
 	},
 	"homepage": "https://github.com/ELEVATE-Project/mentoring-bpp-service#readme",
 	"dependencies": {
-		"@faker-js/faker": "^7.5.0",
 		"axios": "^0.27.2",
 		"cors": "^2.8.5",
 		"dotenv": "^16.0.2",
@@ -43,6 +42,7 @@
 		"redis": "^4.3.1"
 	},
 	"devDependencies": {
+		"@faker-js/faker": "^7.6.0",
 		"eslint": "^8.16.0",
 		"husky": "^8.0.1",
 		"jest": "^28.1.1",
