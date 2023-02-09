@@ -10,7 +10,9 @@ exports.onStatus = async (callbackData) => {
 		const context = await contextBuilder(
 			callbackData.transactionId,
 			callbackData.messageId,
-			process.env.ON_STATUS_ACTION
+			process.env.ON_STATUS_ACTION,
+			callbackData.bapId,
+			callbackData.bapUri
 		)
 		const response = await internalRequests.catalogGET({
 			route: process.env.CATALOG_GET_STATUS_BODY_ROUTE,
@@ -26,7 +28,9 @@ exports.onStatus = async (callbackData) => {
 			callbackData.orderId,
 			callbackData.status
 		)
-		await postRequest(callbackData.bapUri, process.env.ON_STATUS_ROUTE, {}, onStatusRequest, { shouldSign: false })
+		await postRequest(callbackData.bapUri, process.env.ON_STATUS_ROUTE, {}, onStatusRequest, {
+			shouldSign: process.env.SHOULD_SIGN_OUTBOUND_REQUEST === 'false' ? false : true,
+		})
 	} catch (err) {
 		console.log('OnStatus.ProtocolCallbacks.services: ', err)
 	}

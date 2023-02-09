@@ -10,7 +10,9 @@ exports.onSelect = async (callbackData) => {
 		const context = await contextBuilder(
 			callbackData.transactionId,
 			callbackData.messageId,
-			process.env.ON_SELECT_ACTION
+			process.env.ON_SELECT_ACTION,
+			callbackData.bapId,
+			callbackData.bapUri
 		)
 		const response = await internalRequests.catalogGET({
 			route: process.env.CATALOG_GET_SESSION_ROUTE,
@@ -23,7 +25,9 @@ exports.onSelect = async (callbackData) => {
 		})
 		const session = response.session
 		const onSelectRequest = await onSelectRequestDTO(context, session.providers[0])
-		await postRequest(callbackData.bapUri, process.env.ON_SELECT_ROUTE, {}, onSelectRequest, { shouldSign: false })
+		await postRequest(callbackData.bapUri, process.env.ON_SELECT_ROUTE, {}, onSelectRequest, {
+			shouldSign: process.env.SHOULD_SIGN_OUTBOUND_REQUEST === 'false' ? false : true,
+		})
 	} catch (err) {
 		console.log('OnSelect.ProtocolCallbacks.services: ', err)
 	}
