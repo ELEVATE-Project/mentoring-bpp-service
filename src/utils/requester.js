@@ -8,6 +8,7 @@ const httpsAgent = new https.Agent({ rejectUnauthorized: false }) */
 
 exports.postRequest = async (baseURL, route, headers = {}, body, shouldSign) => {
 	try {
+		baseURL = baseURL.replace(/\/$/, '')
 		let url = baseURL + route
 		if (shouldSign) headers = { ...headers, authorization: await createAuthorizationHeader(body) }
 		console.log('URL: ', url)
