@@ -2,17 +2,23 @@
 
 const { contextBuilder } = require('@utils/contextBuilder')
 const { onCancelRequestDTO } = require('@dtos/onCancelRequest')
-const { postRequest } = require('@utils/requester')
+const { externalRequests } = require('@helpers/requests')
 
 exports.onCancel = async (callbackData) => {
 	try {
 		const context = await contextBuilder(
 			callbackData.transactionId,
 			callbackData.messageId,
-			process.env.ON_CANCEL_ACTION
+			process.env.ON_CANCEL_ACTION,
+			callbackData.bapId,
+			callbackData.bapUri
 		)
 		const onSelectRequest = await onCancelRequestDTO(context, callbackData.orderId)
-		await postRequest(callbackData.bapUri, process.env.ON_CANCEL_ROUTE, {}, onSelectRequest, { shouldSign: false })
+		await externalRequests.callbackPOST({
+			baseURL: callbackData.bapUri,
+			route: process.env.ON_CANCEL_ROUTE,
+			body: onSelectRequest,
+		})
 	} catch (err) {
 		console.log('OnSelect.ProtocolCallbacks.services: ', err)
 	}
