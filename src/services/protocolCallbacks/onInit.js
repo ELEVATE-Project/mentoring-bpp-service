@@ -2,8 +2,8 @@
 
 const { contextBuilder } = require('@utils/contextBuilder')
 const { onInitRequestDTO } = require('@dtos/onInitRequest')
-const { postRequest } = require('@utils/requester')
 const crypto = require('crypto')
+const { externalRequests } = require('@helpers/requests')
 
 exports.onInit = async (callbackData) => {
 	try {
@@ -16,8 +16,10 @@ exports.onInit = async (callbackData) => {
 		)
 		const orderId = crypto.randomUUID()
 		const onInitRequest = await onInitRequestDTO(context, orderId)
-		await postRequest(callbackData.bapUri, process.env.ON_INIT_ROUTE, {}, onInitRequest, {
-			shouldSign: process.env.SHOULD_SIGN_OUTBOUND_REQUEST === 'false' ? false : true,
+		await externalRequests.callbackPOST({
+			baseURL: callbackData.bapUri,
+			route: process.env.ON_INIT_ROUTE,
+			body: onInitRequest,
 		})
 	} catch (err) {
 		console.log('OnSearch.ProtocolCallbacks.services: ', err)

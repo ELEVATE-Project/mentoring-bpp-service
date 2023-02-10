@@ -2,7 +2,7 @@
 const { internalRequests } = require('@helpers/requests')
 const { contextBuilder } = require('@utils/contextBuilder')
 const { onConfirmRequestDTO } = require('@dtos/onConfirmRequest')
-const { postRequest } = require('@utils/requester')
+const { externalRequests } = require('@helpers/requests')
 
 exports.onConfirm = async (callbackData) => {
 	try {
@@ -33,8 +33,10 @@ exports.onConfirm = async (callbackData) => {
 			callbackData.orderId,
 			callbackData.joinLink
 		)
-		await postRequest(callbackData.bapUri, process.env.ON_CONFIRM_ROUTE, {}, onConfirmRequest, {
-			shouldSign: process.env.SHOULD_SIGN_OUTBOUND_REQUEST === 'false' ? false : true,
+		await externalRequests.callbackPOST({
+			baseURL: callbackData.bapUri,
+			route: process.env.ON_CONFIRM_ROUTE,
+			body: onConfirmRequest,
 		})
 	} catch (err) {
 		console.log('OnConfirm.ProtocolCallbacks.services: ', err)

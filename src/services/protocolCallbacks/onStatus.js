@@ -2,8 +2,8 @@
 
 const { internalRequests } = require('@helpers/requests')
 const { contextBuilder } = require('@utils/contextBuilder')
-const { postRequest } = require('@utils/requester')
 const { onStatusRequestDTO } = require('@dtos/onStatusRequest')
+const { externalRequests } = require('@helpers/requests')
 
 exports.onStatus = async (callbackData) => {
 	try {
@@ -28,8 +28,10 @@ exports.onStatus = async (callbackData) => {
 			callbackData.orderId,
 			callbackData.status
 		)
-		await postRequest(callbackData.bapUri, process.env.ON_STATUS_ROUTE, {}, onStatusRequest, {
-			shouldSign: process.env.SHOULD_SIGN_OUTBOUND_REQUEST === 'false' ? false : true,
+		await externalRequests.callbackPOST({
+			baseURL: callbackData.bapUri,
+			route: process.env.ON_STATUS_ROUTE,
+			body: onStatusRequest,
 		})
 	} catch (err) {
 		console.log('OnStatus.ProtocolCallbacks.services: ', err)

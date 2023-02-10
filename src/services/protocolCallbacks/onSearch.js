@@ -4,7 +4,7 @@ const { internalRequests } = require('@helpers/requests')
 const { contextBuilder } = require('@utils/contextBuilder')
 const { descriptorBuilder } = require('@utils/descriptorBuilder')
 const { onSearchRequestDTO } = require('@dtos/onSearchRequest')
-const { postRequest } = require('@utils/requester')
+const { externalRequests } = require('@helpers/requests')
 
 exports.onSearch = async (callbackData) => {
 	try {
@@ -22,8 +22,10 @@ exports.onSearch = async (callbackData) => {
 		const catalog = response.catalog
 		catalog.descriptor = descriptorBuilder()
 		const onSearchRequest = await onSearchRequestDTO(context, catalog)
-		await postRequest(callbackData.bapUri, process.env.ON_SEARCH_ROUTE, {}, onSearchRequest, {
-			shouldSign: process.env.SHOULD_SIGN_OUTBOUND_REQUEST === 'false' ? false : true,
+		await externalRequests.callbackPOST({
+			baseURL: callbackData.bapUri,
+			route: process.env.ON_SEARCH_ROUTE,
+			body: onSearchRequest,
 		})
 	} catch (err) {
 		console.log('OnSearch.ProtocolCallbacks.services: ', err)
