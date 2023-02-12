@@ -8,7 +8,7 @@ Docker Compose is a tool for defining and running multi-container Docker applica
 
 -   Install **Docker** & **Docker-Compose**.
 
--   Clone [User](https://github.com/ELEVATE-Project/user/tree/dsep-hackathon), [Mentoring](https://github.com/ELEVATE-Project/mentoring/tree/dsep-hackathon) , [Notification](https://github.com/ELEVATE-Project/notification/tree/dsep-hackathon),[BPP](https://github.com/ELEVATE-Project/mentoring-bpp-service) and [BPP catalog](https://github.com/ELEVATE-Project/mentoring-bpp-catalog-service) services.
+-   Clone [User](https://github.com/ELEVATE-Project/user/tree/dsep-hackathon), [Mentoring](https://github.com/ELEVATE-Project/mentoring/tree/dsep-hackathon) , [Notification](https://github.com/ELEVATE-Project/notification/tree/dsep-hackathon), [BPP](https://github.com/ELEVATE-Project/mentoring-bpp-service) and [BPP catalog](https://github.com/ELEVATE-Project/mentoring-bpp-catalog-service) services.
 
 -   Create an .env file in all the services. See the .env sample for reference.
 
