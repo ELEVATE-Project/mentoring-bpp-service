@@ -27,3 +27,31 @@ exports.findOrCreate = async ({ where = {}, defaults = {} }) => {
 		throw err
 	}
 }
+
+const findByField = async (field, value) => {
+	try {
+		return await SessionAttendance.findOne({ [field]: value }).lean({ virtuals: true })
+	} catch (err) {
+		console.log('SessionAttendance.findByField: ', err)
+	}
+}
+
+exports.findByOrderId = async (orderId) => {
+	try {
+		return await findByField('orderId', orderId)
+	} catch (err) {
+		console.log('SessionAttendance.findByOrderId: ', err)
+	}
+}
+
+exports.setStatusAsCancelledById = async (id, { reasonId, reasonDesc }) => {
+	try {
+		const doc = await SessionAttendance.findById(id)
+		doc.status = SessionAttendance.STATUS.CANCELLED
+		if (reasonId) doc.cancellation.reasonId = reasonId
+		else if (reasonDesc) doc.cancellation.reasonDesc = reasonDesc
+		return await doc.save()
+	} catch (err) {
+		console.log('SessionAttendance.findByOrderId: ', err)
+	}
+}

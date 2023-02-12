@@ -1,11 +1,11 @@
 'use strict'
 
-exports.onSelectRequestDTO = async (context, provider) => {
+exports.onCancelRequestDTO = async (context, orderId) => {
 	return {
 		context,
 		message: {
 			order: {
-				provider,
+				id: orderId,
 			},
 		},
 	}

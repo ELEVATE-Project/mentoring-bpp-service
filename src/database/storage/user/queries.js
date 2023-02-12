@@ -10,6 +10,14 @@ exports.create = async (data) => {
 	}
 }
 
+exports.findById = async (id) => {
+	try {
+		return await User.findById(id).lean()
+	} catch (err) {
+		console.log(err)
+	}
+}
+
 exports.findOrCreate = async ({ where = {}, defaults = {} }) => {
 	try {
 		defaults = Object.assign(where, defaults)
