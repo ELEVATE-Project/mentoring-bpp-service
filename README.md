@@ -19,7 +19,7 @@ The Mentoring building block enables effective mentoring interactions between me
 
 Mentoring BPP service can be setup in local using two methods:
 
-<details><summary>Dockerized service with local dependencies(Intermediate)</summary>
+<details><summary>Dockerized service with local dependencies (Intermediate)</summary>
 
 ## A. Dockerized Service With Local Dependencies
 
@@ -28,7 +28,7 @@ Mentoring BPP service can be setup in local using two methods:
 -   Clone the **Mentoring BPP service** repository.
 
     ```console
-    git clone https://github.com/ELEVATE-Project/mentoring-bpp-catalog-service.git
+    git clone https://github.com/ELEVATE-Project/mentoring-bpp-service.git
     ```
 
 ### Local Dependencies Steps
@@ -43,7 +43,7 @@ Mentoring BPP service can be setup in local using two methods:
     #Kafka Host Server URL
     KAFKA_URL = host.docker.external:9092
     #Mentoring service URI
-    MENTORING_URI= host.docker.external:3000
+    MENTORING_URI= host.docker.external:3000/mentoring
     ```
 
 2.  Build the docker image.
@@ -61,7 +61,7 @@ Mentoring BPP service can be setup in local using two methods:
     -   For Linux:
 
         ```console
-        $ docker run --name bpp-catalog --add-host=host.docker.internal:host-gateway elevate/mentoring-bpp:1.0`
+        $ docker run --name mentoring-bpp --add-host=host.docker.internal:host-gateway elevate/mentoring-bpp:1.0`
         ```
 
         Refer [this](https://stackoverflow.com/a/24326540) for more information.
