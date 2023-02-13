@@ -429,15 +429,11 @@ Docker Compose is a tool for defining and running multi-container Docker applica
 
     Refer the following resources for the same:
 
-    Linux:
+    Linux: [Official Elastic Docs](https://www.elastic.co/guide/en/elasticsearch/reference/current/vm-max-map-count.html) & [StackOverflow](https://stackoverflow.com/questions/42889241/how-to-increase-vm-max-map-count)
 
-    https://www.elastic.co/guide/en/elasticsearch/reference/current/vm-max-map-count.html
+    Mac & Windows: [Official Elastic Docs](https://www.elastic.co/guide/en/elasticsearch/reference/8.4/docker.html#docker-prod-prerequisites)
 
-    https://stackoverflow.com/questions/42889241/how-to-increase-vm-max-map-count
-
-    Mac & Windows:
-
-    https://www.elastic.co/guide/en/elasticsearch/reference/8.4/docker.html#docker-prod-prerequisites
+    Additional resource (refer if required): [Here](https://github.com/10up/wp-local-docker/issues/6)
 
 -   Start the services and dependencies by running the docker-compose up command:
 
