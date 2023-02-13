@@ -25,11 +25,17 @@ Mentoring BPP service can be setup in local using two methods:
 
 **Expectation**: Run single docker containerized service with existing local (in host) or remote dependencies.
 
--   Clone the **Mentoring BPP service** repository.
+- Clone the **Mentoring BPP service** repository.
 
+<<<<<<< HEAD
     ```console
     git clone https://github.com/ELEVATE-Project/mentoring-bpp-service.git
     ```
+=======
+  ```console
+  git clone https://github.com/ELEVATE-Project/mentoring-bpp-service.git
+  ```
+>>>>>>> 1a0810c3ee4112ddb0e5bbe4bc0bdace85ad62d8
 
 ### Local Dependencies Steps
 
@@ -52,19 +58,25 @@ Mentoring BPP service can be setup in local using two methods:
     ```
 3.  Run the docker container.
 
-    -   For Mac & Windows with docker v18.03+:
+    - For Mac & Windows with docker v18.03+:
 
-        ```console
-        $ docker run --name mentoring-bpp:1.0 elevate/mentoring-bpp:1.0
-        ```
+      ```console
+      $ docker run --name mentoring-bpp:1.0 elevate/mentoring-bpp:1.0
+      ```
 
-    -   For Linux:
+    - For Linux:
 
+<<<<<<< HEAD
         ```console
         $ docker run --name mentoring-bpp --add-host=host.docker.internal:host-gateway elevate/mentoring-bpp:1.0`
         ```
+=======
+      ```console
+      $ docker run --name mentoring-bpp --add-host=host.docker.internal:host-gateway elevate/mentoring-bpp:1.0`
+      ```
+>>>>>>> 1a0810c3ee4112ddb0e5bbe4bc0bdace85ad62d8
 
-        Refer [this](https://stackoverflow.com/a/24326540) for more information.
+      Refer [this](https://stackoverflow.com/a/24326540) for more information.
 
 ### Remote Dependencies Steps
 
@@ -197,13 +209,13 @@ Mentoring BPP service can be setup in local using two methods:
 
 # Tech stack
 
--   Node - 16.0.0
--   Kafka - 7.3.0
--   Mongo - 4.1.2
+- Node - 16.0.0
+- Kafka - 7.3.0
+- Mongo - 4.1.2
 
 # Team
 
-<a href="https://github.com/ELEVATE-Project/mentoring-bpp-catalog-service/graphs/contributors">
+<a href="https://github.com/ELEVATE-Project/mentoring-bpp-service/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=ELEVATE-Project/mentoring-bpp-service" />
 </a>
 
