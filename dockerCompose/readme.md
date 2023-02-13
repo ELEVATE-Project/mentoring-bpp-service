@@ -6,24 +6,30 @@ Docker Compose is a tool for defining and running multi-container Docker applica
 
 ## Steps
 
--   Install **Docker** & **Docker-Compose**.
+- Install **Docker** & **Docker-Compose**.
 
--   Clone [User](https://github.com/ELEVATE-Project/user/tree/dsep-hackathon), [Mentoring](https://github.com/ELEVATE-Project/mentoring/tree/dsep-hackathon) , [Notification](https://github.com/ELEVATE-Project/notification/tree/dsep-hackathon), [BPP](https://github.com/ELEVATE-Project/mentoring-bpp-service) and [BPP catalog](https://github.com/ELEVATE-Project/mentoring-bpp-catalog-service) services.
+- Clone [User](https://github.com/ELEVATE-Project/user/tree/dsep-hackathon), [Mentoring](https://github.com/ELEVATE-Project/mentoring/tree/dsep-hackathon) , [Notification](https://github.com/ELEVATE-Project/notification/tree/dsep-hackathon), [BPP](https://github.com/ELEVATE-Project/mentoring-bpp-service) and [BPP catalog](https://github.com/ELEVATE-Project/mentoring-bpp-catalog-service) services.
 
--   Create an .env file in all the services. See the .env sample for reference.
+- Create an .env file in all the services. See the .env sample for reference.
 
--   To create/start all containers:
+- Run the scripts:
 
-    ```bash
-    ELEVATE/dockerCompose$ docker-compose up
-    ```
+  ```bash
+  ELEVATE/mentoring-bpp-catalog-service/src/scripts/kafkaConnectorConfigs$ node createAgentConnector.js  && node createFulfillmentConnector.js && node createProviderConnector.js && node createSessionConnector.js
+  ```
 
--   To remove all containers & networks:
+- To create/start all containers:
 
-    ```bash
-    ELEVATE/dockerCompose$ docker-compose down
-    ```
+  ```bash
+  ELEVATE/dockerCompose$ docker-compose up
+  ```
 
-    Refer **Docker-Compose README** for more information.
-    **Note:** It isn't always necessary to run **down** command. Existing containers and networks can be stopped gracefully by using **Ctrl + C** key combination.
-    **Warning:** Do not use docker-compose in production.
+- To remove all containers & networks:
+
+  ```bash
+  ELEVATE/dockerCompose$ docker-compose down
+  ```
+
+  Refer **Docker-Compose README** for more information.
+  **Note:** It isn't always necessary to run **down** command. Existing containers and networks can be stopped gracefully by using **Ctrl + C** key combination.
+  **Warning:** Do not use docker-compose in production.
