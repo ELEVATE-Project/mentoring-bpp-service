@@ -21,7 +21,7 @@ Mentoring BPP service can be setup in local using three methods:
 
 <details><summary>As part of multi-container local setup with all other services and dependencies using Docker-Compose (Easy - Recommended)</summary>
 
-## A. Docker-Compose Setup Guide
+### A. Docker-Compose Setup Guide
 
 Refer: [https://github.com/ELEVATE-Project/mentoring-bpp-service/tree/dsep-hackathon/dockerCompose](https://github.com/ELEVATE-Project/mentoring-bpp-service/tree/dsep-hackathon/dockerCompose)
 
@@ -29,23 +29,15 @@ Refer: [https://github.com/ELEVATE-Project/mentoring-bpp-service/tree/dsep-hacka
 
 <details><summary>Dockerized service with local dependencies (Intermediate)</summary>
 
-## B. Dockerized Service With Local Dependencies
+### B. Dockerized Service With Local Dependencies
 
 **Expectation**: Run single docker containerized service with existing local (in host) or remote dependencies.
 
 -   Clone the **Mentoring BPP service** repository.
 
-<<<<<<< HEAD
-`console
+    ```console
     git clone https://github.com/ELEVATE-Project/mentoring-bpp-service.git
-    `
-=======
-
-```console
-git clone https://github.com/ELEVATE-Project/mentoring-bpp-service.git
-```
-
-> > > > > > > 1a0810c3ee4112ddb0e5bbe4bc0bdace85ad62d8
+    ```
 
 ### Local Dependencies Steps
 
@@ -76,18 +68,11 @@ git clone https://github.com/ELEVATE-Project/mentoring-bpp-service.git
 
     -   For Linux:
 
-<<<<<<< HEAD
-`` console
+        ```console
         $ docker run --name mentoring-bpp --add-host=host.docker.internal:host-gateway elevate/mentoring-bpp:1.0`
-         ``
-=======
-`` console
-      $ docker run --name mentoring-bpp --add-host=host.docker.internal:host-gateway elevate/mentoring-bpp:1.0`
-       ``
+        ```
 
-> > > > > > > 1a0810c3ee4112ddb0e5bbe4bc0bdace85ad62d8
-
-      Refer [this](https://stackoverflow.com/a/24326540) for more information.
+        Refer [this](https://stackoverflow.com/a/24326540) for more information.
 
 ### Remote Dependencies Steps
 
@@ -118,7 +103,7 @@ git clone https://github.com/ELEVATE-Project/mentoring-bpp-service.git
 
 <details><summary>Local Service with local dependencies (Hard)</summary>
 
-## C. Local Service With Local Dependencies
+### C. Local Service With Local Dependencies
 
 **Expectation**: Run a single service with existing local dependencies in the host (**Non-Docker Implementation**).
 
