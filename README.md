@@ -11,7 +11,7 @@
 </a>
 
 </br>
-The Mentoring building block enables effective mentoring interactions between mentors and mentees. The capability aims to create a transparent eco-system to learn, connect, solve, and share within communities.MentorED is an open source mentoring application that facilitates peer learning and professional development by creating a community of mentors and mentees.
+The Mentoring building block enables effective mentoring interactions between mentors and mentees. The capability aims to create a transparent ecosystem to learn, connect, solve, and share within communities. MentorED is an open-source mentoring application that facilitates peer learning and professional development by creating a community of mentors and mentees.
 
 </div>
 
@@ -19,7 +19,7 @@ The Mentoring building block enables effective mentoring interactions between me
 
 Mentoring BPP service can be setup in local using two methods:
 
-<details><summary>Dockerized service with local dependencies(Intermediate)</summary>
+<details><summary>Dockerized service with local dependencies (Intermediate)</summary>
 
 ## A. Dockerized Service With Local Dependencies
 
@@ -28,7 +28,7 @@ Mentoring BPP service can be setup in local using two methods:
 -   Clone the **Mentoring BPP service** repository.
 
     ```console
-    git clone https://github.com/ELEVATE-Project/mentoring-bpp-catalog-service.git
+    git clone https://github.com/ELEVATE-Project/mentoring-bpp-service.git
     ```
 
 ### Local Dependencies Steps
@@ -43,7 +43,7 @@ Mentoring BPP service can be setup in local using two methods:
     #Kafka Host Server URL
     KAFKA_URL = host.docker.external:9092
     #Mentoring service URI
-    MENTORING_URI= host.docker.external:3000
+    MENTORING_URI= host.docker.external:3000/mentoring
     ```
 
 2.  Build the docker image.
@@ -61,7 +61,7 @@ Mentoring BPP service can be setup in local using two methods:
     -   For Linux:
 
         ```console
-        $ docker run --name bpp-catalog --add-host=host.docker.internal:host-gateway elevate/mentoring-bpp:1.0`
+        $ docker run --name mentoring-bpp --add-host=host.docker.internal:host-gateway elevate/mentoring-bpp:1.0`
         ```
 
         Refer [this](https://stackoverflow.com/a/24326540) for more information.
@@ -93,7 +93,7 @@ Mentoring BPP service can be setup in local using two methods:
 
 </details>
 
-<details><summary>Local Service with local dependencies(Hardest)</summary>
+<details><summary>Local Service with local dependencies (Hard)</summary>
 
 ## B. Local Service With Local Dependencies
 
@@ -116,7 +116,7 @@ Mentoring BPP service can be setup in local using two methods:
 2.  Clone the **Mentoring BPP service** repository.
 
     ```console
-    git clone https://github.com/ELEVATE-Project/mentoring-bpp-catalog-service.git
+    git clone https://github.com/ELEVATE-Project/mentoring-bpp-service.git
     ```
 
 3.  Add **.env** file to the project directory
@@ -130,7 +130,7 @@ Mentoring BPP service can be setup in local using two methods:
     BECKN_REGISTRY_URI=https://registry.becknprotocol.io/subscribers
     CITY=std:080
     COUNTRY=IND
-    DOMAIN=nic2004:85491
+    DOMAIN=dsep:mentoring
     BPP_ID=bpp:3005
     BPP_URI=http://bpp:3005/bpp-2
     REDIS_HOST = redis://redis:6379
@@ -138,10 +138,10 @@ Mentoring BPP service can be setup in local using two methods:
     BPP_NAME="SL BPP #2"
     BPP_CODE="sl-bpp-2"
     BPP_SYMBOL="<i class="fas fa-user-graduate"></i>"
-    SUBSCRIBER_ID='bpp12345'
+    SUBSCRIBER_ID=<Beckn Registry Subscriber Id>
     UNIQUE_ID='sl23rws98uf09s8u'
-    PRIVATE_KEY=']//=='
-    PUBLIC_KEY='+/='
+    PRIVATE_KEY=<Beckn Registry Private Key>
+    PUBLIC_KEY=<Beckn Registry Public Key>
     AUTH_ENABLED=false
     DISABLE_PROXY_AUTH=true
     BPP_CATALOG_URI='http://bpp-catalog:3009/bpp-catalog'
@@ -154,10 +154,29 @@ Mentoring BPP service can be setup in local using two methods:
     ON_CONFIRM_ROUTE='/on_confirm'
     ON_SELECT_ACTION='on_select'
     ON_SELECT_ROUTE='/on_select'
+    ON_STATUS_ACTION='on_status'
+    ON_STATUS_ROUTE='/on_status'
+    ON_CANCEL_ACTION='on_cancel'
+    ON_CANCEL_ROUTE='/on_cancel'
+    ON_SEARCH_ACTION='on_search'
+    ON_SEARCH_ROUTE='/on_search'
+    ON_INIT_ACTION='on_init'
+    ON_INIT_ROUTE='/on_init'
+
     CATALOG_GET_FULFILLMENT_ROUTE='/get-fulfillment/:fulfillmentId'
     CATALOG_GET_SESSION_ROUTE='/get-session/:sessionId'
+    CATALOG_GET_STATUS_BODY_ROUTE='/get-status-body/:sessionId/:fulfillmentId'
     MENTORING_SESSION_ENROLL_ROUTE='/v1/sessions/enroll'
+    MENTORING_SESSION_UNENROLL_ROUTE='/v1/sessions/unEnroll'
+    CATALOG_SEARCH_ROUTE='/search'
 
+    BPP_SHORT_DESCRIPTION='The official dev DSEP BPP Of ShikshaLokam.'
+    BPP_LONG_DESCRIPTION="ShikshaLokam's dev BPP act as the provider platform for enabling discovery of mentorship sessions on DSEP open-network."
+    BPP_IMAGE='https://shikshalokam.org/wp-content/uploads/2021/06/elevate-logo.png'
+    BPP_IMAGE_TYPE='md'
+    BPP_IMAGE_WIDTH='400'
+    BPP_IMAGE_HEIGHT='200'
+    SHOULD_SIGN_CALLBACK_REQUESTS='true'
     ```
 
 4.  Install Npm packages
