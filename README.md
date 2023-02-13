@@ -17,19 +17,35 @@ The Mentoring building block enables effective mentoring interactions between me
 
 # Setup Options
 
-Mentoring BPP service can be setup in local using two methods:
+Mentoring BPP service can be setup in local using three methods:
+
+<details><summary>As part of multi-container local setup with all other services and dependencies using Docker-Compose (Easy - Recommended)</summary>
+
+## A. Docker-Compose Setup Guide
+
+Refer: [https://github.com/ELEVATE-Project/mentoring-bpp-service/tree/dsep-hackathon/dockerCompose](https://github.com/ELEVATE-Project/mentoring-bpp-service/tree/dsep-hackathon/dockerCompose)
+
+</details>
 
 <details><summary>Dockerized service with local dependencies (Intermediate)</summary>
 
-## A. Dockerized Service With Local Dependencies
+## B. Dockerized Service With Local Dependencies
 
 **Expectation**: Run single docker containerized service with existing local (in host) or remote dependencies.
 
 -   Clone the **Mentoring BPP service** repository.
 
-    ```console
+<<<<<<< HEAD
+`console
     git clone https://github.com/ELEVATE-Project/mentoring-bpp-service.git
-    ```
+    `
+=======
+
+```console
+git clone https://github.com/ELEVATE-Project/mentoring-bpp-service.git
+```
+
+> > > > > > > 1a0810c3ee4112ddb0e5bbe4bc0bdace85ad62d8
 
 ### Local Dependencies Steps
 
@@ -60,11 +76,18 @@ Mentoring BPP service can be setup in local using two methods:
 
     -   For Linux:
 
-        ```console
+<<<<<<< HEAD
+`` console
         $ docker run --name mentoring-bpp --add-host=host.docker.internal:host-gateway elevate/mentoring-bpp:1.0`
-        ```
+         ``
+=======
+`` console
+      $ docker run --name mentoring-bpp --add-host=host.docker.internal:host-gateway elevate/mentoring-bpp:1.0`
+       ``
 
-        Refer [this](https://stackoverflow.com/a/24326540) for more information.
+> > > > > > > 1a0810c3ee4112ddb0e5bbe4bc0bdace85ad62d8
+
+      Refer [this](https://stackoverflow.com/a/24326540) for more information.
 
 ### Remote Dependencies Steps
 
@@ -95,7 +118,7 @@ Mentoring BPP service can be setup in local using two methods:
 
 <details><summary>Local Service with local dependencies (Hard)</summary>
 
-## B. Local Service With Local Dependencies
+## C. Local Service With Local Dependencies
 
 **Expectation**: Run a single service with existing local dependencies in the host (**Non-Docker Implementation**).
 
@@ -203,7 +226,7 @@ Mentoring BPP service can be setup in local using two methods:
 
 # Team
 
-<a href="https://github.com/ELEVATE-Project/mentoring-bpp-catalog-service/graphs/contributors">
+<a href="https://github.com/ELEVATE-Project/mentoring-bpp-service/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=ELEVATE-Project/mentoring-bpp-service" />
 </a>
 
