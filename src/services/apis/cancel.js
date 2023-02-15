@@ -11,9 +11,9 @@ exports.cancel = async (requestBody) => {
 	try {
 		const context = requestBody.context
 		const message = requestBody.message
-		const orderId = message.order.id
-		const reasonId = message.order.cancellation_reason_id
-		const reasonDesc = message.order.descriptor?.name
+		const orderId = message.order_id
+		const reasonId = message.cancellation_reason_id
+		const reasonDesc = message.descriptor?.name
 		const { bap } = await bapQueries.findOrCreate({
 			where: { bapId: context.bap_id, bapUri: context.bap_uri },
 		})

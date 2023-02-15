@@ -6,12 +6,15 @@ const { compile } = require('path-to-regexp')
 /* const https = require('https')
 const httpsAgent = new https.Agent({ rejectUnauthorized: false }) */
 
-exports.postRequest = async (baseURL, route, headers = {}, body, { shouldSign }) => {
+exports.postRequest = async (baseURL, route, headers = {}, body, shouldSign) => {
 	try {
+		baseURL = baseURL.replace(/\/$/, '')
 		let url = baseURL + route
 		if (shouldSign) headers = { ...headers, authorization: await createAuthorizationHeader(body) }
-		const response = await axios.post(url, body, { headers, timeout: 3000 })
+		console.log('URL: ', url)
+		console.log('HEADERS: ', JSON.stringify(headers, null, 2))
 		console.log('BODY: ', JSON.stringify(body, null, 2))
+		const response = await axios.post(url, body, { headers, timeout: 3000 })
 		console.log('RESPONSE: ', JSON.stringify(response.data, null, 2))
 		return response.data
 	} catch (err) {
@@ -25,7 +28,7 @@ exports.postRequest = async (baseURL, route, headers = {}, body, { shouldSign })
 	}
 }
 
-exports.getRequest = async (baseURL, route, headers, pathParams, queryParams) => {
+exports.getRequest = async (baseURL, route, headers = {}, pathParams = {}, queryParams = {}) => {
 	try {
 		route = compile(route, { encode: encodeURIComponent })(pathParams)
 		let url = baseURL + route
@@ -45,11 +48,15 @@ exports.getRequest = async (baseURL, route, headers, pathParams, queryParams) =>
 }
 
 exports.internalPOSTRequest = (baseURL) => {
-	return async ({ headers, body, route }) =>
-		await exports.postRequest(baseURL, route, headers, body, { shouldSign: false })
+	return async ({ headers, body, route }) => await exports.postRequest(baseURL, route, headers, body, false)
 }
 
 exports.internalGETRequest = (baseURL) => {
 	return async ({ headers, pathParams, queryParams, route }) =>
 		await exports.getRequest(baseURL, route, headers, pathParams, queryParams)
+}
+
+exports.externalPOSTRequest = (shouldSign) => {
+	return async ({ baseURL, headers, body, route }) =>
+		await exports.postRequest(baseURL, route, headers, body, shouldSign)
 }

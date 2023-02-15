@@ -2,15 +2,17 @@
 
 const { internalRequests } = require('@helpers/requests')
 const { contextBuilder } = require('@utils/contextBuilder')
-const { postRequest } = require('@utils/requester')
 const { onStatusRequestDTO } = require('@dtos/onStatusRequest')
+const { externalRequests } = require('@helpers/requests')
 
 exports.onStatus = async (callbackData) => {
 	try {
 		const context = await contextBuilder(
 			callbackData.transactionId,
 			callbackData.messageId,
-			process.env.ON_STATUS_ACTION
+			process.env.ON_STATUS_ACTION,
+			callbackData.bapId,
+			callbackData.bapUri
 		)
 		const response = await internalRequests.catalogGET({
 			route: process.env.CATALOG_GET_STATUS_BODY_ROUTE,
@@ -26,7 +28,11 @@ exports.onStatus = async (callbackData) => {
 			callbackData.orderId,
 			callbackData.status
 		)
-		await postRequest(callbackData.bapUri, process.env.ON_STATUS_ROUTE, {}, onStatusRequest, { shouldSign: false })
+		await externalRequests.callbackPOST({
+			baseURL: callbackData.bapUri,
+			route: process.env.ON_STATUS_ROUTE,
+			body: onStatusRequest,
+		})
 	} catch (err) {
 		console.log('OnStatus.ProtocolCallbacks.services: ', err)
 	}
