@@ -5,7 +5,6 @@ const sessionAttendanceQueries = require('@database/storage/sessionAttendance/qu
 const userQueries = require('@database/storage/user/queries')
 const bapQueries = require('@database/storage/bap/queries')
 const crypto = require('crypto')
-const { getRequest } = require('@utils/requester')
 
 exports.session = async (requestBody) => {
 	try {
