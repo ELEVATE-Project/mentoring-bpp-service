@@ -35,3 +35,11 @@ exports.findOrCreate = async ({ where = {}, defaults = {} }) => {
 		throw err
 	}
 }
+
+exports.findByIds = async (ids) => {
+	try {
+		return await User.find({ _id: { $in: ids } }).lean()
+	} catch (err) {
+		console.log(err)
+	}
+}

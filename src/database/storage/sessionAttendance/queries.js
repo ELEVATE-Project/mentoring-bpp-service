@@ -55,3 +55,10 @@ exports.setStatusAsCancelledById = async (id, { reasonId, reasonDesc }) => {
 		console.log('SessionAttendance.findByOrderId: ', err)
 	}
 }
+exports.findBySessionId = async (sessionId) => {
+	try {
+		return await SessionAttendance.find({ sessionId: sessionId })
+	} catch (err) {
+		console.log('SessionAttendance.findBySessionId: ', err)
+	}
+}

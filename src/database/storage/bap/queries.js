@@ -27,3 +27,11 @@ exports.findOrCreate = async ({ where = {}, defaults = {} }) => {
 		throw err
 	}
 }
+
+exports.findByIds = async (ids) => {
+	try {
+		return await Bap.find({ _id: { $in: ids } }).lean()
+	} catch (err) {
+		console.log(err)
+	}
+}

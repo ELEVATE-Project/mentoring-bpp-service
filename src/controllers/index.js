@@ -6,6 +6,7 @@ const confirmService = require('@services/apis/confirm')
 const selectService = require('@services/apis/select')
 const statusService = require('@services/apis/status')
 const cancelService = require('@services/apis/cancel')
+const sessionService = require('@services/session')
 
 exports.search = async (req, res) => {
 	try {
@@ -57,6 +58,16 @@ exports.status = async (req, res) => {
 		console.debug(JSON.stringify(req.body, null, '\t'))
 		res.status(200).send(responses.success_ack)
 		await statusService.status(req.body)
+	} catch (err) {
+		console.log(err)
+	}
+}
+
+exports.sessionUpdate = async (req, res) => {
+	try {
+		console.debug(JSON.stringify(req.body, null, '\t'))
+		res.status(200).send(responses.success_ack)
+		await sessionService.session(req.body)
 	} catch (err) {
 		console.log(err)
 	}
