@@ -2,7 +2,7 @@
 
 const { contextBuilder } = require('@utils/contextBuilder')
 const { onUpdateRequestDTO } = require('@dtos/onUpdateRequest')
-const { postRequest } = require('@utils/requester')
+const { externalRequests } = require('@helpers/requests')
 const { internalRequests } = require('@helpers/requests')
 
 exports.onUpdate = async (callbackData) => {
@@ -26,7 +26,11 @@ exports.onUpdate = async (callbackData) => {
 			callbackData.orderId,
 			callbackData.status
 		)
-		await postRequest(callbackData.bapUri, process.env.ON_UPDATE_ROUTE, {}, onUpdateRequest, { shouldSign: false })
+		await externalRequests.callbackPOST({
+			baseURL: callbackData.bapUri,
+			route: process.env.ON_UPDATE_ROUTE,
+			body: onUpdateRequest,
+		})
 	} catch (err) {
 		console.log('OnUpdate.ProtocolCallbacks.services: ', err)
 	}
