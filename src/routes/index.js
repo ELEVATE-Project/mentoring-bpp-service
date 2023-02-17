@@ -10,5 +10,6 @@ router.post('/init', bppController.init)
 router.post('/confirm', bppController.confirm)
 router.post('/cancel', bppController.cancel)
 router.post('/status', bppController.status)
+router.post('/sessionUpdate', bppController.sessionUpdate)
 
 module.exports = router
