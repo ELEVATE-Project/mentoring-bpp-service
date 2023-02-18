@@ -22,9 +22,18 @@ exports.onConfirm = async (callbackData) => {
 		fulfillment.tags = [
 			{
 				display: true,
-				code: 'joinLink',
-				name: 'joinLink',
-				list: [{ code: callbackData.joinLink, name: callbackData.joinLink }],
+				descriptor: {
+					code: 'joinLink',
+					name: 'joinLink',
+				},
+				list: [
+					{
+						descriptor: {
+							code: callbackData.joinLink,
+							name: callbackData.joinLink,
+						},
+					},
+				],
 			},
 		]
 		const onConfirmRequest = await onConfirmRequestDTO(
