@@ -12,6 +12,9 @@ exports.init = async (requestBody) => {
 		const { bap } = await bapQueries.findOrCreate({
 			where: { bapId: context.bap_id, bapUri: context.bap_uri },
 		})
+		console.log('INIT')
+		console.log(customer)
+		console.log(sessionId)
 		await protocolCallbacks.onInit({
 			transactionId: context.transaction_id,
 			messageId: context.message_id,
