@@ -3,9 +3,9 @@
 const { contextBuilder } = require('@utils/contextBuilder')
 const { onInitRequestDTO } = require('@dtos/onInitRequest')
 const { internalRequests } = require('@helpers/requests')
-const crypto = require('crypto')
+//const crypto = require('crypto')
 const { externalRequests } = require('@helpers/requests')
-const { onSearchRequestDTO } = require('@dtos/onSearchRequest')
+const { onSelectRequestDTO } = require('@dtos/onSelectRequest')
 
 exports.onInit = async (callbackData) => {
 	try {
@@ -26,7 +26,7 @@ exports.onInit = async (callbackData) => {
 			},
 		})
 		const session = response.session
-		const onInitRequest = await onSearchRequestDTO(context, session.providers[0]) //This is a temporary solution for compliance with Unified BAP team. Should be changed as early as possible.
+		const onInitRequest = await onSelectRequestDTO(context, session.providers[0]) //This is a temporary solution for compliance with Unified BAP team. Should be changed as early as possible.
 		onInitRequest.message.order.provider.fulfillments[0].customer = callbackData.customer
 		await externalRequests.callbackPOST({
 			baseURL: callbackData.bapUri,
