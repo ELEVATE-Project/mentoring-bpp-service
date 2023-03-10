@@ -1,12 +1,10 @@
 'use strict'
+const SessionAttendance = require('./model')
 const { isEmpty } = require('@utils/generic')
-const nano = require('@configs/couchdb')
-const db = nano.use('session-attendance')
 
 exports.create = async (data) => {
 	try {
-		const insertResult = await db.insert(data)
-		return await db.get(insertResult.id)
+		return await new SessionAttendance(data).save()
 	} catch (err) {
 		console.log(err)
 	}
@@ -16,22 +14,14 @@ exports.findOrCreate = async ({ where = {}, defaults = {} }) => {
 	try {
 		defaults = Object.assign(where, defaults)
 		if (isEmpty(where)) throw 'Where Clause Is Empty'
-
-		let isNew
-		const results = await db.find({ selector: where })
-		if (results.docs.length > 0) {
-			isNew = false
-			console.log('Found Existing Session Attendance')
-			console.log(results.docs[0])
-			return { sessionAttendance: results.docs[0], isNew }
-		} else {
-			const insertResult = await db.insert(defaults)
-			const doc = await db.get(insertResult.id)
-			isNew = true
-			console.log('New Session Attendance Entry Created')
-			console.log('Doc: ', doc)
-			return { sessionAttendance: doc, isNew }
-		}
+		return await new Promise((resolve, reject) => {
+			SessionAttendance.findOrCreate(where, defaults, (err, sessionAttendance, isNew) => {
+				if (err) reject(err)
+				if (isNew) console.log('New SessionAttendance Entry Created')
+				else console.log('Found Existing SessionAttendance')
+				resolve({ sessionAttendance, isNew })
+			})
+		})
 	} catch (err) {
 		console.log('SessionAttendance.findOrCreate: ', err)
 		throw err
@@ -40,12 +30,7 @@ exports.findOrCreate = async ({ where = {}, defaults = {} }) => {
 
 const findByField = async (field, value) => {
 	try {
-		const selector = {
-			[field]: value,
-		}
-		const results = await db.find({ selector: selector })
-		if (results.docs.length === 0) return null
-		else results.docs[0]
+		return await SessionAttendance.findOne({ [field]: value }).lean({ virtuals: true })
 	} catch (err) {
 		console.log('SessionAttendance.findByField: ', err)
 	}
@@ -61,19 +46,18 @@ exports.findByOrderId = async (orderId) => {
 
 exports.setStatusAsCancelledById = async (id, { reasonId, reasonDesc }) => {
 	try {
-		const doc = await db.get(id)
-		doc.status = 'CANCELLED'
+		const doc = await SessionAttendance.findById(id)
+		doc.status = SessionAttendance.STATUS.CANCELLED
 		if (reasonId) doc.cancellation.reasonId = reasonId
 		else if (reasonDesc) doc.cancellation.reasonDesc = reasonDesc
-		const updateResult = await db.insert(doc, doc._id)
-		return await db.get(updateResult)
+		return await doc.save()
 	} catch (err) {
 		console.log('SessionAttendance.findByOrderId: ', err)
 	}
 }
 exports.findBySessionId = async (sessionId) => {
 	try {
-		return await findByField('sessionId', sessionId)
+		return await SessionAttendance.find({ sessionId: sessionId })
 	} catch (err) {
 		console.log('SessionAttendance.findBySessionId: ', err)
 	}

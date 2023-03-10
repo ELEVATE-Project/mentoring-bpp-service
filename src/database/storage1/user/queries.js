@@ -1,12 +1,20 @@
 'use strict'
-const nano = require('@configs/couchdb')
-const db = nano.use('bap')
 const { isEmpty } = require('@utils/generic')
+const nano = require('@configs/couchdb')
+const db = nano.use('user')
 
 exports.create = async (data) => {
 	try {
 		const insertResult = await db.insert(data)
 		return await db.get(insertResult.id)
+	} catch (err) {
+		console.log(err)
+	}
+}
+
+exports.findById = async (id) => {
+	try {
+		return await db.get(id)
 	} catch (err) {
 		console.log(err)
 	}
@@ -21,19 +29,19 @@ exports.findOrCreate = async ({ where = {}, defaults = {} }) => {
 		const results = await db.find({ selector: where })
 		if (results.docs.length > 0) {
 			isNew = false
-			console.log('Found Existing BAP')
+			console.log('Found Existing User')
 			console.log(results.docs[0])
 			return { bap: results.docs[0], isNew }
 		} else {
 			const insertResult = await db.insert(defaults)
 			const doc = await db.get(insertResult.id)
 			isNew = true
-			console.log('New BAP Entry Created')
+			console.log('New User Entry Created')
 			console.log('Doc: ', doc)
 			return { bap: doc, isNew }
 		}
 	} catch (err) {
-		console.log('BAP.findOrCreate: ', err)
+		console.log('User.findOrCreate: ', err)
 		throw err
 	}
 }

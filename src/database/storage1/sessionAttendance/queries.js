@@ -21,16 +21,16 @@ exports.findOrCreate = async ({ where = {}, defaults = {} }) => {
 		const results = await db.find({ selector: where })
 		if (results.docs.length > 0) {
 			isNew = false
-			console.log('Found Existing Session Attendance')
+			console.log('Found Existing BAP')
 			console.log(results.docs[0])
-			return { sessionAttendance: results.docs[0], isNew }
+			return { bap: results.docs[0], isNew }
 		} else {
 			const insertResult = await db.insert(defaults)
 			const doc = await db.get(insertResult.id)
 			isNew = true
-			console.log('New Session Attendance Entry Created')
+			console.log('New BAP Entry Created')
 			console.log('Doc: ', doc)
-			return { sessionAttendance: doc, isNew }
+			return { bap: doc, isNew }
 		}
 	} catch (err) {
 		console.log('SessionAttendance.findOrCreate: ', err)

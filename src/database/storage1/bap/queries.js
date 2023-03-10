@@ -5,8 +5,7 @@ const { isEmpty } = require('@utils/generic')
 
 exports.create = async (data) => {
 	try {
-		const insertResult = await db.insert(data)
-		return await db.get(insertResult.id)
+		await db.insert(data)
 	} catch (err) {
 		console.log(err)
 	}
@@ -22,15 +21,13 @@ exports.findOrCreate = async ({ where = {}, defaults = {} }) => {
 		if (results.docs.length > 0) {
 			isNew = false
 			console.log('Found Existing BAP')
-			console.log(results.docs[0])
 			return { bap: results.docs[0], isNew }
 		} else {
 			const insertResult = await db.insert(defaults)
-			const doc = await db.get(insertResult.id)
 			isNew = true
 			console.log('New BAP Entry Created')
-			console.log('Doc: ', doc)
-			return { bap: doc, isNew }
+			console.log('INSERT RESULT: ', insertResult)
+			return { bap: insertResult, isNew }
 		}
 	} catch (err) {
 		console.log('BAP.findOrCreate: ', err)

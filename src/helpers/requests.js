@@ -10,3 +10,8 @@ exports.internalRequests = {
 exports.externalRequests = {
 	callbackPOST: externalPOSTRequest(process.env.SHOULD_SIGN_CALLBACK_REQUESTS === 'false' ? false : true),
 }
+
+exports.couchDBRequests = {
+	couchPOST: internalPOSTRequest(''),
+	couchGET: internalGETRequest(''),
+}

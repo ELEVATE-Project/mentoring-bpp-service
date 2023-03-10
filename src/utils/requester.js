@@ -30,7 +30,12 @@ exports.postRequest = async (baseURL, route, headers = {}, body, shouldSign) => 
 
 exports.getRequest = async (baseURL, route, headers = {}, pathParams = {}, queryParams = {}) => {
 	try {
-		route = compile(route, { encode: encodeURIComponent })(pathParams)
+		console.log('BASE ULR: ', baseURL)
+		console.log('route:', route)
+		console.log('headers: ', headers)
+		console.log('PathParams: ', pathParams)
+		console.log('queryParams: ', queryParams)
+		route = !isEmpty(pathParams) ? compile(route, { encode: encodeURIComponent })(pathParams) : route
 		let url = baseURL + route
 		if (!isEmpty(queryParams)) url += '?' + new URLSearchParams(queryParams).toString()
 		const response = await axios.get(url, { headers })

@@ -19,7 +19,7 @@ exports.confirm = async (requestBody) => {
 			where: { email: billing.email, bapId: bap._id },
 			defaults: { name: billing.name },
 		})
-		console.log(user)
+		console.log('User:', user)
 		const { sessionAttendance, isNew } = await sessionAttendanceQueries.findOrCreate({
 			where: {
 				userId: user._id,
