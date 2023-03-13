@@ -80,6 +80,7 @@ exports.finishClusterSetup = async () => {
 		const verifyClusterResponse = await couchDBRequests.couchGET({
 			route: `${coordinatorNodeURL}/_membership`,
 		})
+		//const add = await couchDBRequests.couchPOST
 		console.log('verifyClusterResponse: ', verifyClusterResponse)
 	} catch (err) {
 		console.log(err)
