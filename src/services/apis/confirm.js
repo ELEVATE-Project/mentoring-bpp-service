@@ -4,7 +4,7 @@ const sessionAttendanceQueries = require('@database/storage/sessionAttendance/qu
 const userQueries = require('@database/storage/user/queries')
 const { internalRequests } = require('@helpers/requests')
 const protocolCallbacks = require('@services/protocolCallbacks/')
-const sessionAttendanceModel = require('@database/storage/sessionAttendance/model')
+//const sessionAttendanceModel = require('@database/storage/sessionAttendance/model')
 
 exports.confirm = async (requestBody) => {
 	try {
@@ -25,7 +25,7 @@ exports.confirm = async (requestBody) => {
 				userId: user._id,
 				sessionId: message.order.items[0].id,
 				fulfillmentId: message.order.fulfillments[0].id,
-				status: sessionAttendanceModel.STATUS.ACTIVE,
+				//status: sessionAttendanceModel.STATUS.ACTIVE,
 			},
 		})
 		console.log(sessionAttendance)

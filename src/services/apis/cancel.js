@@ -5,7 +5,7 @@ const bapQueries = require('@database/storage/bap/queries')
 const sessionAttendanceQueries = require('@database/storage/sessionAttendance/queries')
 const userQueries = require('@database/storage/user/queries')
 const { internalRequests } = require('@helpers/requests')
-const sessionAttendanceModel = require('@database/storage/sessionAttendance/model')
+//const sessionAttendanceModel = require('@database/storage/sessionAttendance/model')
 
 exports.cancel = async (requestBody) => {
 	try {
@@ -19,8 +19,8 @@ exports.cancel = async (requestBody) => {
 		})
 		const sessionAttendanceDoc = await sessionAttendanceQueries.findByOrderId(orderId)
 		if (!sessionAttendanceDoc) return console.log('SessionAttendance Not Found')
-		if (sessionAttendanceDoc.status != sessionAttendanceModel.STATUS.ACTIVE)
-			return console.log('ERROR: User Currently Not Enrolled')
+		/* if (sessionAttendanceDoc.status != sessionAttendanceModel.STATUS.ACTIVE)
+			return console.log('ERROR: User Currently Not Enrolled') */
 		const user = await userQueries.findById(sessionAttendanceDoc.userId)
 		const response = await internalRequests.mentoringPOST({
 			route: process.env.MENTORING_SESSION_UNENROLL_ROUTE,

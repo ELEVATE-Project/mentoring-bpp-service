@@ -27,7 +27,7 @@ const createBapTable = async () => {
             id UUID,
             bapId text,
             bapUri text,
-            PRIMARY KEY((id), bapId)
+            PRIMARY KEY(bapId, id)
         )`
 		const result = await client.execute(query)
 		console.log('Table Created: bap')
