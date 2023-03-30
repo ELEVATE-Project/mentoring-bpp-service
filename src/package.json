@@ -40,7 +40,8 @@
 		"mongoose-lean-virtuals": "^0.9.1",
 		"mongoose-timestamp": "^0.6.0",
 		"path-to-regexp": "^6.2.1",
-		"redis": "^4.3.1"
+		"redis": "^4.3.1",
+		"uuid": "^9.0.0"
 	},
 	"devDependencies": {
 		"@faker-js/faker": "^7.6.0",

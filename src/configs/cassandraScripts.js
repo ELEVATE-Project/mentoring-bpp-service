@@ -82,7 +82,8 @@ const createUserTable = async () => {
 	}
 }
 
-//createKeySpace()
-/* createBapTable()
+/* createKeySpace()
+createBapTable()
 createSessionAttendanceTable()
-createUserTable() */
+createUserTable()
+ */
