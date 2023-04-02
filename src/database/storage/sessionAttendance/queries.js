@@ -60,3 +60,21 @@ const findOrCreate = async ({ where = {}, defaults = {} }) => {
 
 const sessionAttendanceQueries = { create, findOrCreate }
 module.exports = sessionAttendanceQueries
+exports.setStatusAsCancelledById = async (id, { reasonId, reasonDesc }) => {
+	try {
+		const doc = await SessionAttendance.findById(id)
+		doc.status = SessionAttendance.STATUS.CANCELLED
+		if (reasonId) doc.cancellation.reasonId = reasonId
+		else if (reasonDesc) doc.cancellation.reasonDesc = reasonDesc
+		return await doc.save()
+	} catch (err) {
+		console.log('SessionAttendance.findByOrderId: ', err)
+	}
+}
+exports.findBySessionId = async (sessionId) => {
+	try {
+		return await SessionAttendance.find({ sessionId: sessionId })
+	} catch (err) {
+		console.log('SessionAttendance.findBySessionId: ', err)
+	}
+}

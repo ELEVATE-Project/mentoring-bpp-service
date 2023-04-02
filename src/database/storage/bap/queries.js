@@ -60,3 +60,10 @@ const findOrCreate = async ({ where = {}, defaults = {} }) => {
 
 const bapQueries = { create, findOrCreate }
 module.exports = bapQueries
+exports.findByIds = async (ids) => {
+	try {
+		return await Bap.find({ _id: { $in: ids } }).lean()
+	} catch (err) {
+		console.log(err)
+	}
+}
