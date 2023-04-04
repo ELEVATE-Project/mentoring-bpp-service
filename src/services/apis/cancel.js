@@ -15,7 +15,8 @@ exports.cancel = async (requestBody) => {
 		const reasonId = message.cancellation_reason_id
 		const reasonDesc = message.descriptor?.name
 		const { bap } = await bapQueries.findOrCreate({
-			where: { bapId: context.bap_id, bapUri: context.bap_uri },
+			where: { bapId: context.bap_id },
+			defaults: { bapUri: context.bap_uri },
 		})
 		const sessionAttendanceDoc = await sessionAttendanceQueries.findByOrderId(orderId)
 		if (!sessionAttendanceDoc) return console.log('SessionAttendance Not Found')

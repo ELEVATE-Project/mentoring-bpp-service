@@ -10,7 +10,8 @@ exports.init = async (requestBody) => {
 		const customer = message.order.fulfillments[0].customer
 		const sessionId = message.order.items[0].id
 		const { bap } = await bapQueries.findOrCreate({
-			where: { bapId: context.bap_id, bapUri: context.bap_uri },
+			where: { bapId: context.bap_id },
+			defaults: { bapUri: context.bap_uri },
 		})
 		console.log('INIT')
 		console.log(customer)

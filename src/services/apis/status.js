@@ -13,7 +13,8 @@ exports.status = async (requestBody) => {
 		if (!sessionAttendanceDoc) return console.log('SessionAttendance Not Found')
 		console.log(sessionAttendanceDoc)
 		const { bap } = await bapQueries.findOrCreate({
-			where: { bapId: context.bap_id, bapUri: context.bap_uri },
+			where: { bapId: context.bap_id },
+			defaults: { bapUri: context.bap_uri },
 		})
 		const status = sessionAttendanceDoc.statusText
 		console.log(status)

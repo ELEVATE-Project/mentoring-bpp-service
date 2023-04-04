@@ -3,20 +3,18 @@
 const client = require('@configs/cassandra')
 const { isEmpty } = require('@utils/generic')
 const uuid = require('uuid')
+const bapModel = require('./model')
 
-const select = async ({ where = {} }) => {
+const findOne = async ({ where = {} }) => {
 	try {
-		let selectQuery = 'SELECT * FROM bap WHERE '
-		const whereFields = Object.keys(where)
-		whereFields.forEach((field, index) => {
-			if (index > 0) selectQuery += ' and '
-			selectQuery += `${field} = '${where[field]}'`
+		const bap = await new Promise((resolve, reject) => {
+			bapModel.findOne({ bapId: where.bapId }, (err, result) => {
+				if (err) reject(err)
+				else resolve(result)
+			})
 		})
-		selectQuery += ';'
-		console.log('SELECT QUERY: ', selectQuery)
-		const selectResult = await client.execute(selectQuery)
-		console.log('SELECT SELECTRESULT: ', selectResult)
-		return selectResult
+		if (bap) return bap.toJSON()
+		else return null
 	} catch (err) {
 		console.log(err)
 	}
@@ -24,12 +22,14 @@ const select = async ({ where = {} }) => {
 
 const create = async (data) => {
 	try {
-		const query = 'INSERT INTO bap (bapId, id, bapUri) VALUES (?,?,?)'
-		const params = [data.bapId, uuid.v4(), data.bapUri]
-		console.log(params)
-		await client.execute(query, params, { prepare: true })
-		const selectResult = await select({ where: { bapId: data.bapId } })
-		return selectResult.rows[0]
+		const bap = new bapModel({ bapId: data.bapId, id: client.uuid(), bapUri: data.bapUri })
+		const result = await new Promise((resolve, reject) => {
+			bap.save((err) => {
+				if (err) reject(err)
+				else resolve(bap)
+			})
+		})
+		return result.toJSON()
 	} catch (err) {
 		console.log('CASSANDRA BAP CREATE: ', err)
 	}
@@ -39,19 +39,14 @@ const findOrCreate = async ({ where = {}, defaults = {} }) => {
 	try {
 		defaults = Object.assign(defaults, where)
 		if (isEmpty(where)) throw 'Where Clause Is Empty'
-		const selectResult = await select({ where })
-		if (selectResult.rows.length === 0) {
-			console.log('DEFAULTS: ', defaults)
-			const newBap = await create(defaults)
-			console.log('NEW BAP: ', newBap)
-			newBap.id = newBap.id.buffer.toString('hex')
-			return { bap: newBap, isNew: true }
+		const bap = await findOne({ where })
+		if (bap) {
+			bap.id = uuid.v4({ uuid: bap.id.buffer, format: 'hex' })
+			return { bap, isNew: false }
 		} else {
-			console.log(selectResult.rows[0])
-			const bap = selectResult.rows[0]
-			console.log('CURRENT BAP: ', bap)
-			bap.id = bap.id.buffer.toString('hex')
-			return { bap: selectResult.rows[0], isNew: false }
+			const newBap = await create(defaults)
+			newBap.id = uuid.v4({ uuid: newBap.id.buffer, format: 'hex' })
+			return { bap: newBap, isNew: true }
 		}
 	} catch (err) {
 		console.log('CASSANDRA BAP FINDORCREATE: ', err)
@@ -60,10 +55,10 @@ const findOrCreate = async ({ where = {}, defaults = {} }) => {
 
 const bapQueries = { create, findOrCreate }
 module.exports = bapQueries
-exports.findByIds = async (ids) => {
+/* exports.findByIds = async (ids) => {
 	try {
 		return await Bap.find({ _id: { $in: ids } }).lean()
 	} catch (err) {
 		console.log(err)
 	}
-}
+} */

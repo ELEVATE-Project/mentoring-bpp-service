@@ -2,4 +2,4 @@
 
 //require('@configs/mongodb')
 require('@configs/cassandra')
-require('@configs/cassandraScripts')
+require('@configs/loadModels')

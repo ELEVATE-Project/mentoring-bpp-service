@@ -2,6 +2,7 @@
 
 const protocolCallbacks = require('@services/protocolCallbacks/')
 const bapQueries = require('@database/storage/bap/queries')
+const idToBapIdQueries = require('@database/storage/idToBapId/queries')
 
 exports.search = async (requestBody) => {
 	try {
@@ -11,7 +12,12 @@ exports.search = async (requestBody) => {
 			where: { bapId: context.bap_id },
 			defaults: { bapUri: context.bap_uri }, //, bapUri: context.bap_uri },
 		})
-		console.log('CONTROLLER: ', bap)
+		const { idToBapId } = await idToBapIdQueries.findOrCreate({
+			where: { id: bap.id },
+			defaults: { bapId: bap.bapId },
+		})
+		console.log('CONTROLLER idToBapId: ', idToBapId)
+		console.log('CONTROLLER BAP: ', bap)
 		//console.log(bap.id.buffer)
 		await protocolCallbacks.onSearch({
 			transactionId: context.transaction_id,

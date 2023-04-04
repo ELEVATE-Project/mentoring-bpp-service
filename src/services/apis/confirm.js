@@ -11,7 +11,8 @@ exports.confirm = async (requestBody) => {
 		const context = requestBody.context
 		const message = requestBody.message
 		const { bap } = await bapQueries.findOrCreate({
-			where: { bapId: context.bap_id, bapUri: context.bap_uri },
+			where: { bapId: context.bap_id },
+			defaults: { bapUri: context.bap_uri },
 		})
 		console.log(bap)
 		const billing = message.order.billing

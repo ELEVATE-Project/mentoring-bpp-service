@@ -1,6 +1,68 @@
 'use strict'
+const userModel = require('./model')
+const uuid = require('uuid')
+const client = require('@configs/cassandra')
+const { isEmpty } = require('@utils/generic')
 
-exports.create = async (data) => {
+const create = async (data) => {
+	try {
+		console.log('CREATE DATA: ', data)
+		const user = new userModel({
+			id: client.uuid(),
+			bapUri: data.bapUri,
+		})
+		const result = await new Promise((resolve, reject) => {
+			user.save((err) => {
+				if (err) reject(err)
+				else resolve(user)
+			})
+		})
+		console.log('CREATE RESULT: ', result.toJSON())
+		return result.toJSON()
+	} catch (err) {
+		console.log('CASSANDRA sessionAttendance CREATE: ', err)
+	}
+}
+
+const findOne = async ({ where = {} }) => {
+	try {
+		console.log('SELECT WHERE: ', where)
+		const user = await new Promise((resolve, reject) => {
+			userModel.findOne({ id: where.id }, (err, result) => {
+				console.log('CALLBACK')
+				if (err) reject(err)
+				else resolve(result)
+			})
+		})
+		if (user) return user.toJSON()
+		else return null
+	} catch (err) {
+		console.log(err)
+	}
+}
+
+const findOrCreate = async ({ where = {}, defaults = {} }) => {
+	try {
+		defaults = Object.assign(defaults, where)
+		if (isEmpty(where)) throw 'Where Clause Is Empty'
+		const bap = await findOne({ where })
+		if (bap) {
+			bap.id = uuid.v4({ uuid: bap.id.buffer, format: 'hex' })
+			return { bap, isNew: false }
+		} else {
+			const newBap = await create(defaults)
+			newBap.id = uuid.v4({ uuid: newBap.id.buffer, format: 'hex' })
+			return { bap: newBap, isNew: true }
+		}
+	} catch (err) {
+		console.log('CASSANDRA BAP FINDORCREATE: ', err)
+	}
+}
+
+const userQueries = { findOrCreate, findOne }
+module.exports = userQueries
+
+/* exports.create = async (data) => {
 	try {
 		return await new User(data).save()
 	} catch (err) {
@@ -40,4 +102,4 @@ exports.findByIds = async (ids) => {
 	} catch (err) {
 		console.log(err)
 	}
-}
+} */
