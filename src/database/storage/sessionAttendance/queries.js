@@ -9,7 +9,7 @@ const findOne = async ({ where = {} }) => {
 	try {
 		console.log('SELECT WHERE: ', where)
 		const sessionAttendance = await new Promise((resolve, reject) => {
-			sessionAttendanceModel.findOne({ sessionId: where.sessionId }, (err, result) => {
+			sessionAttendanceModel.findOne({ id: where.id }, (err, result) => {
 				console.log('CALLBACK')
 				if (err) reject(err)
 				else resolve(result)
@@ -27,6 +27,16 @@ const create = async (data) => {
 		console.log('CREATE DATA: ', data)
 		const bap = new sessionAttendanceModel({
 			/* bapId: data.bapId, id: client.uuid(), bapUri: data.bapUri */
+			id: client.uuid(),
+			userId: client.uuidFromString(data.userId),
+			sessionId: client.uuidFromString(data.sessionId),
+			sessionAttendeeId: client.uuidFromString(data.sessionAttendeeId),
+			orderId: client.uuidFromString(data.orderId),
+			status: data.status,
+			cancellation: {
+				reasonId: data.reasonId,
+				reasonDesc: data.reasonDesc,
+			},
 		})
 		const result = await new Promise((resolve, reject) => {
 			bap.save((err) => {

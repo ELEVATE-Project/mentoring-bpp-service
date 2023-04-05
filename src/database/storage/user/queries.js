@@ -9,7 +9,9 @@ const create = async (data) => {
 		console.log('CREATE DATA: ', data)
 		const user = new userModel({
 			id: client.uuid(),
-			bapUri: data.bapUri,
+			name: data.name,
+			email: data.name,
+			bapId: client.uuidFromString(data.bapId),
 		})
 		const result = await new Promise((resolve, reject) => {
 			user.save((err) => {
@@ -41,25 +43,57 @@ const findOne = async ({ where = {} }) => {
 	}
 }
 
+/* var query = {
+    surname : { '$in': ['Doe','Smith'] },
+}
+
+models.instance.Person.find(query, {raw: true}, function(err, people){
+    //people is an array of plain objects satisfying the query conditions above
+}); */
+
+const findByIds = async (ids) => {
+	try {
+		const users = await new Promise((resolve, reject) => {
+			userModel.find({ id: { $in: ids } }, { raw: true }, (err, result) => {
+				if (err) reject(err)
+				else {
+					if (result.length > 0) {
+						for (const user of result) {
+							user.id = uuid.v4({ uuid: user.id.buffer, format: 'hex' })
+							user.bapId = uuid.v4({ uuid: user.bapId.buffer, format: 'hex' })
+						}
+						resolve(result)
+					} else resolve([])
+				}
+			})
+		})
+		return users
+	} catch (err) {
+		console.log(err)
+	}
+}
+
 const findOrCreate = async ({ where = {}, defaults = {} }) => {
 	try {
 		defaults = Object.assign(defaults, where)
 		if (isEmpty(where)) throw 'Where Clause Is Empty'
-		const bap = await findOne({ where })
-		if (bap) {
-			bap.id = uuid.v4({ uuid: bap.id.buffer, format: 'hex' })
-			return { bap, isNew: false }
+		const user = await findOne({ where })
+		if (user) {
+			user.id = uuid.v4({ uuid: user.id.buffer, format: 'hex' })
+			user.bapId = uuid.v4({ uuid: user.bapId.buffer, format: 'hex' })
+			return { user, isNew: false }
 		} else {
-			const newBap = await create(defaults)
-			newBap.id = uuid.v4({ uuid: newBap.id.buffer, format: 'hex' })
-			return { bap: newBap, isNew: true }
+			const newUser = await create(defaults)
+			user.id = uuid.v4({ uuid: user.id.buffer, format: 'hex' })
+			user.bapId = uuid.v4({ uuid: user.bapId.buffer, format: 'hex' })
+			return { user: newUser, isNew: true }
 		}
 	} catch (err) {
 		console.log('CASSANDRA BAP FINDORCREATE: ', err)
 	}
 }
 
-const userQueries = { findOrCreate, findOne }
+const userQueries = { findOrCreate, findOne, findByIds }
 module.exports = userQueries
 
 /* exports.create = async (data) => {
