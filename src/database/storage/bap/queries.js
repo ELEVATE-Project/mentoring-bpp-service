@@ -7,6 +7,7 @@ const bapModel = require('./model')
 
 const findOne = async ({ where = {} }) => {
 	try {
+		console.log('FINE BAP: WHERE: ', where)
 		const bap = await new Promise((resolve, reject) => {
 			bapModel.findOne({ bapId: where.bapId }, (err, result) => {
 				if (err) reject(err)

@@ -72,7 +72,7 @@ const findOrCreate = async ({ where = {}, defaults = {} }) => {
 	}
 }
 
-const sessionAttendanceQueries = { create, findOrCreate }
+const sessionAttendanceQueries = { create, findOrCreate, findOne }
 module.exports = sessionAttendanceQueries
 /* exports.setStatusAsCancelledById = async (id, { reasonId, reasonDesc }) => {
 	try {

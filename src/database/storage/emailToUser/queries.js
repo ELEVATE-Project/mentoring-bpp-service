@@ -7,11 +7,15 @@ const emailToUserModel = require('./model')
 
 const findOne = async ({ where = {} }) => {
 	try {
+		console.log('EMAIL TO USER MODEL WHERE: ', where)
 		const emailToUser = await new Promise((resolve, reject) => {
-			emailToUserModel.findOne({ email: where.email, bapId: where.bapId }, (err, result) => {
-				if (err) reject(err)
-				else resolve(result)
-			})
+			emailToUserModel.findOne(
+				{ email: where.email, bapId: client.uuidFromString(where.bapId) },
+				(err, result) => {
+					if (err) reject(err)
+					else resolve(result)
+				}
+			)
 		})
 		if (emailToUser) return emailToUser.toJSON()
 		else return null
@@ -22,7 +26,11 @@ const findOne = async ({ where = {} }) => {
 
 const create = async (data) => {
 	try {
-		const emailToUser = new emailToUserModel({ email: data.email, bapId: data.bapId, userId: data.userId })
+		const emailToUser = new emailToUserModel({
+			email: data.email,
+			bapId: client.uuidFromString(data.bapId),
+			userId: client.uuidFromString(data.userId),
+		})
 		const result = await new Promise((resolve, reject) => {
 			emailToUser.save((err) => {
 				if (err) reject(err)
@@ -55,5 +63,5 @@ const findOrCreate = async ({ where = {}, defaults = {} }) => {
 	}
 }
 
-const emailToUserQueries = { create, findOrCreate }
+const emailToUserQueries = { create, findOrCreate, findOne }
 module.exports = emailToUserQueries
