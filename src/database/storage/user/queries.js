@@ -93,7 +93,7 @@ const findOrCreate = async ({ where = {}, defaults = {} }) => {
 	}
 }
 
-const userQueries = { findOrCreate, findOne, findByIds }
+const userQueries = { findOrCreate, findOne, findByIds, create }
 module.exports = userQueries
 
 /* exports.create = async (data) => {
