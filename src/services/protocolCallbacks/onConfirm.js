@@ -13,12 +13,15 @@ exports.onConfirm = async (callbackData) => {
 			callbackData.bapId,
 			callbackData.bapUri
 		)
-		//console.log(context)
+		console.log('ON_CONRIFM context:', context)
+		console.log('ON_CONFIRM callbackData', callbackData)
 		const response = await internalRequests.catalogGET({
 			pathParams: { fulfillmentId: callbackData.fulfillmentId },
 			route: process.env.CATALOG_GET_FULFILLMENT_ROUTE,
 		})
+		console.log('ON_CONRIFM Catalog Response:', response)
 		const fulfillment = response.fulfillment
+		console.log('ON_CONRIFM fulfillment:', fulfillment)
 		fulfillment.tags = [
 			{
 				display: true,
