@@ -1,7 +1,7 @@
 'use strict'
 
 const protocolCallbacks = require('@services/protocolCallbacks/')
-const bapQueries = require('@database/storage/bap/queries')
+const bapQueries = require('@database/queries/bap')
 
 exports.init = async (requestBody) => {
 	try {
@@ -10,7 +10,7 @@ exports.init = async (requestBody) => {
 		const customer = message.order.fulfillments[0].customer
 		const sessionId = message.order.items[0].id
 		const { bap } = await bapQueries.findOrCreate({
-			where: { bapId: context.bap_id, bapUri: context.bap_uri },
+			where: { bap_id: context.bap_id, bap_uri: context.bap_uri },
 		})
 		console.log('INIT')
 		console.log(customer)
@@ -18,8 +18,8 @@ exports.init = async (requestBody) => {
 		await protocolCallbacks.onInit({
 			transactionId: context.transaction_id,
 			messageId: context.message_id,
-			bapId: bap.bapId,
-			bapUri: bap.bapUri,
+			bapId: bap.bap_id,
+			bapUri: bap.bap_uri,
 			customer,
 			sessionId,
 		})

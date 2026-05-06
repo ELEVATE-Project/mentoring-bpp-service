@@ -41,3 +41,21 @@ exports.authVerifier = async (req, res, next) => {
 		console.log(err)
 	}
 }
+
+exports.internalAuthVerifier = (req, res, next) => {
+	try {
+		const internalToken = req.headers['x-internal-token'] || false
+		const INTERNAL_ACCESS_TOKEN = process.env.INTERNAL_ACCESS_TOKEN
+
+		if (internalToken && internalToken === INTERNAL_ACCESS_TOKEN) {
+			console.log('INTERNAL REQUEST AUTHENTICATED')
+			return next()
+		} else {
+			console.log('INTERNAL AUTHENTICATION FAILED')
+			return unauthenticatedResponse('Internal Authentication Failed', res)
+		}
+	} catch (err) {
+		console.error(err)
+		return res.status(500).json({ error: 'Internal Server Error' })
+	}
+}

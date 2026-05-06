@@ -13,15 +13,15 @@ exports.status = async (requestBody) => {
 		if (!sessionAttendanceDoc) return console.log('SessionAttendance Not Found')
 		console.log(sessionAttendanceDoc)
 		const { bap } = await bapQueries.findOrCreate({
-			where: { bapId: context.bap_id, bapUri: context.bap_uri },
+			where: { bap_id: context.bap_id, bap_uri: context.bap_uri },
 		})
 		const status = sessionAttendanceDoc.statusText
 		console.log(status)
 		await protocolCallbacks.onStatus({
 			transactionId: context.transaction_id,
 			messageId: context.message_id,
-			bapId: bap.bapId,
-			bapUri: bap.bapUri,
+			bapId: bap.bap_id,
+			bapUri: bap.bap_uri,
 			status,
 			sessionId: sessionAttendanceDoc.sessionId.toString(),
 			fulfillmentId: sessionAttendanceDoc.fulfillmentId.toString(),

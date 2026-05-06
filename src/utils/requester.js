@@ -8,14 +8,18 @@ const httpsAgent = new https.Agent({ rejectUnauthorized: false }) */
 
 exports.postRequest = async (baseURL, route, headers = {}, body, shouldSign) => {
 	try {
+		console.log('baseURL: ', baseURL)
 		baseURL = baseURL.replace(/\/$/, '')
 		let url = baseURL + route
 		if (shouldSign) headers = { ...headers, authorization: await createAuthorizationHeader(body) }
 		console.log('URL: ', url)
 		console.log('HEADERS: ', JSON.stringify(headers, null, 2))
 		console.log('BODY: ', JSON.stringify(body, null, 2))
+		console.log('::::::::::::::::::::::::::::::::::::::::::::::::::: ')
 		const response = await axios.post(url, body, { headers, timeout: 3000 })
-		console.log('RESPONSE: ', JSON.stringify(response.data, null, 2))
+		console.log('::::::::::::::::::::::::::::::::::::::::::::::::::: ')
+
+		console.log('RESPONSE::::::::: ', JSON.stringify(response.data, null, 2))
 		return response.data
 	} catch (err) {
 		if (err.response) {

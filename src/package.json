@@ -4,7 +4,9 @@
 	"description": "Beckn Bpp Service For ELEVATE",
 	"main": "app.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"db:init": "sequelize-cli db:create && sequelize-cli db:migrate ",
+		"db:seed:all": "sequelize-cli db:seed:all"
 	},
 	"repository": {
 		"type": "git",
@@ -39,7 +41,10 @@
 		"mongoose-lean-virtuals": "^0.9.1",
 		"mongoose-timestamp": "^0.6.0",
 		"path-to-regexp": "^6.2.1",
-		"redis": "^4.3.1"
+		"pg": "^8.13.3",
+		"pg-hstore": "^2.3.4",
+		"redis": "^4.3.1",
+		"sequelize": "^6.37.5"
 	},
 	"devDependencies": {
 		"@faker-js/faker": "^7.6.0",
